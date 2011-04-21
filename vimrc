@@ -646,3 +646,19 @@ if MySys() == "mac"
       au GUIEnter * set fullscreen
     endif
 endif
+
+"Map ESC with jj
+imap jj <ESC>
+
+" Use \e instead of :e to edit file in the same directory
+" with the current file
+nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
+
+" Auto Close the Tag list of inactive buffer
+let Tlist_File_Fold_Auto_Close = 1
+let Tlist_Show_One_File = 1
+
+" Highlight tabs and spaces
+au BufNewFile,BufReadPost,FilterReadPost,FileReadPost,Syntax * SpaceHi
+au FileType help NoSpaceHi
+
