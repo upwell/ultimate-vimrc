@@ -297,9 +297,9 @@ cno $c e <C-\>eCurrentFileDir("e")<cr>
 cno $q <C-\>eDeleteTillSlash()<cr>
 
 " Bash like keys for the command line
-cnoremap <C-A>		<Home>
-cnoremap <C-E>		<End>
-cnoremap <C-K>		<C-U>
+cnoremap <C-A> <Home>
+cnoremap <C-E> <End>
+cnoremap <C-K> <C-U>
 
 cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
@@ -368,9 +368,9 @@ map <left> :bp<cr>
 
 " Tab configuration
 map <leader>tn :tabnew! %<cr>
-map <leader>te :tabedit 
+map <leader>te :tabedit
 map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove 
+map <leader>tm :tabmove
 
 " When pressing <leader>cd switch to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>
@@ -647,8 +647,10 @@ if MySys() == "mac"
     endif
 endif
 
-"Map ESC with jj
+" Map ESC with jj
 imap jj <ESC>
+" Map taglist with tt
+nmap tt :TlistToggle<cr>
 
 " Use \e instead of :e to edit file in the same directory
 " with the current file
