@@ -171,7 +171,7 @@ if MySys() == "mac"
 elseif MySys() == "windows"
   set gfn=Bitstream\ Vera\ Sans\ Mono:h10
 elseif MySys() == "linux"
-  set gfn=Monospace\ 10
+  set gfn=Inconsolata\ 14
   set shell=/bin/bash
 endif
 
@@ -179,7 +179,7 @@ if has("gui_running")
   set guioptions-=T
   set t_Co=256
   set background=dark
-  colorscheme peaksea
+  colorscheme desertEx
   set nonu
 else
   colorscheme zellner
