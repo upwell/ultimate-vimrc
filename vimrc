@@ -177,6 +177,7 @@ endif
 
 if has("gui_running")
   set guioptions-=T
+  set guioptions-=M
   set t_Co=256
   set background=dark
   colorscheme desertEx
@@ -663,4 +664,7 @@ let Tlist_Show_One_File = 1
 " Highlight tabs and spaces
 au BufNewFile,BufReadPost,FilterReadPost,FileReadPost,Syntax * SpaceHi
 au FileType help NoSpaceHi
+
+" json support
+au! BufRead,BufNewFile *.json set filetype=json foldmethod=syntax
 
