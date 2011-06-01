@@ -158,7 +158,6 @@ set novisualbell
 set t_vb=
 set tm=500
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -668,3 +667,7 @@ au FileType help NoSpaceHi
 " json support
 au! BufRead,BufNewFile *.json set filetype=json foldmethod=syntax
 
+" tags file
+if filereadable(glob("~/.vim_runtime/tags/header/tags"))
+    set tags+=~/.vim_runtime/tags/header/tags
+endif
