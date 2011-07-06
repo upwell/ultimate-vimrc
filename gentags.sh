@@ -10,3 +10,7 @@ fi
 
 mkdir -p tags/header
 ctags -o ./tags/header/tags -R /usr/include/
+
+[ -d /usr/local/include ] && \
+    ctags -o ./tags/header/tags --append=yes \
+             -R /usr/local/include/
