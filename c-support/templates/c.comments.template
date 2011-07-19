@@ -33,41 +33,39 @@ $%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  */
 $%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 == comment.file-description == start ==
-/*
- * =====================================================================================
+/*-----------------------------------------------------------------------------
+ *   Copyright (C) 1988-2011, Trend Micro Inc.  All Rights Reserved.
  *
- *       Filename:  |FILENAME|
+ *   This program is an unpublished copyrighted work which is proprietary
+ *   to Trend Micro, Inc. and contains confidential information that is not
+ *   to be reproduced or disclosed to any other person or entity without
+ *   prior written consent from Trend Micro, Inc. in each and every instance.
  *
- *    Description:  <CURSOR>
+ *   WARNING:  Unauthorized reproduction of this program as well as
+ *   unauthorized preparation of derivative works based upon the
+ *   program or distribution of copies by sale, rental, lease or
+ *   lending are violations of federal copyright laws and state trade
+ *   secret laws, punishable by civil and criminal penalties.
  *
- *        Version:  1.0
- *        Created:  |DATE| |TIME|
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  |AUTHOR| (|AUTHORREF|), |EMAIL|
- *        Company:  |COMPANY|
- *
- * =====================================================================================
+ *-----------------------------------------------------------------------------
  */
 $%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 == comment.file-description-header == start ==
-/*
- * =====================================================================================
+/*-----------------------------------------------------------------------------
+ *   Copyright (C) 1988-2011, Trend Micro Inc.  All Rights Reserved.
  *
- *       Filename:  |FILENAME|
+ *   This program is an unpublished copyrighted work which is proprietary
+ *   to Trend Micro, Inc. and contains confidential information that is not
+ *   to be reproduced or disclosed to any other person or entity without
+ *   prior written consent from Trend Micro, Inc. in each and every instance.
  *
- *    Description:  <CURSOR>
+ *   WARNING:  Unauthorized reproduction of this program as well as
+ *   unauthorized preparation of derivative works based upon the
+ *   program or distribution of copies by sale, rental, lease or
+ *   lending are violations of federal copyright laws and state trade
+ *   secret laws, punishable by civil and criminal penalties.
  *
- *        Version:  1.0
- *        Created:  |DATE| |TIME|
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  |AUTHOR| (|AUTHORREF|), |EMAIL|
- *        Company:  |COMPANY|
- *
- * =====================================================================================
+ *-----------------------------------------------------------------------------
  */
 $%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 == comment.file-section-cpp-header-includes  == 

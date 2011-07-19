@@ -232,6 +232,10 @@ set ai "Auto indent
 set si "Smart indet
 set wrap "Wrap lines
 
+"adjust the indent for pulic in c++
+"see :he cinooptions-values for more info
+set cino=g0
+
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
