@@ -675,3 +675,11 @@ au! BufRead,BufNewFile *.json set filetype=json foldmethod=syntax
 if filereadable(glob("~/.vim_runtime/tags/header/tags"))
     set tags+=~/.vim_runtime/tags/header/tags
 endif
+
+" Really easy pasting supported in Vim Version 7.3 or higher
+" Only work on the host system, remote ssh not work
+if v:version >= 703
+    map <Leader>vv  :set paste<CR>i<C-r>*<C-O>:set nopaste<CR><ESC>
+    imap <Leader>vv  <C-O>:set paste<CR><C-r>*<C-O>:set nopaste<CR>
+endif
+
