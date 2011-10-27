@@ -683,3 +683,6 @@ if v:version >= 703
     imap <Leader>vv  <C-O>:set paste<CR><C-r>*<C-O>:set nopaste<CR>
 endif
 
+" for pathogen plugin
+call pathogen#infect()
+
