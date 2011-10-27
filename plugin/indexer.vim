@@ -8,25 +8,6 @@
 " You may use this code in whatever way you see fit.
 
 "TODO:
-"
-"   *) Если есть проекты с одинаковым названием - нужно показывать варнинг
-"   *) Проверять версию ctags при старте:
-"
-"        во-первых, нужно выдавать error, если ctags вообще не установлен.
-"
-"        во-вторых, х3, нужно выдавать варнинг, если ctags не пропатчен.
-"           чтобы не надоедать юзеру, если он все равно не хочет патчить, 
-"           нужно сделать возможность убрать этот варнинг.
-"           Пока что только приходит в голову сделать специальную опцию
-"           для заглушивания этого варнинга.
-"
-"
-" ----------------
-"  In 3.0
-"
-" Опцию типа "менять рабочую директорию при смене проекта", и менять ее только
-" в том случае, если проект сменили, а не только файл.
-"
 " ----------------
 "
 " *) !!! Unsorted tags file is BAD. Please try to make SED work with sorted
@@ -77,14 +58,14 @@
 " s:dFiles - DICTIONARY with info about all regular files
 "     [  <bufnr('%')>  ] - DICTIONARY KEY
 "        ["sVimprjKey"] - key for s:dVimprjRoots
-"        ["projects"] - LIST 
+"        ["projects"] - LIST
 "                             NOTE!!!
 "                             At this moment only ONE project
 "                             is allowed for each file
 "           [0, 1, 2, ...] - LIST KEY. At this moment, only 0 is available
 "              ["file"] - key for s:dProjFilesParsed
 "              ["name"] - name of project
-"           
+"
 " s:sLastCtagsCmd    - last executed ctags command
 " s:sLastCtagsOutput - output for last executed ctags command
 "
@@ -98,8 +79,8 @@
 "     ["versionFirstLine"] - output for ctags --version, but first line only.
 "
 
-"        
-"  
+"
+"
 
 " ************************************************************************************************
 "                                   ASYNC COMMAND FUNCTIONS
@@ -428,14 +409,12 @@ function! <SID>ApplyVimprjSettings(sVimprjKey)
 
    "let l:sTmp .= "===".&ts
    "let l:tmp2 = input(l:sTmp)
-   " для каждого проекта, в который входит файл, добавляем tags и path
 
    for l:lFileProjs in s:dFiles[ s:curFileNum ]["projects"]
       exec "set tags+=". s:dProjFilesParsed[ l:lFileProjs.file ]["projects"][ l:lFileProjs.name ]["tagsFilenameEscaped"]
       exec "set path+=".s:dProjFilesParsed[ l:lFileProjs.file ]["projects"][ l:lFileProjs.name ]["sPathsAll"]
    endfor
 
-   " переключаем рабочую директорию
    exec "cd ".s:dVimprjRoots[ a:sVimprjKey ]["cd_path"]
 
    call <SID>_AddToDebugLog(s:DEB_LEVEL__ALL, 'function end: __ApplyVimprjSettings__', {})
@@ -661,7 +640,7 @@ function! <SID>IndexerInfo()
       echo '* Error: Ctags NOT FOUND. You need to install Exuberant Ctags to make Indexer work. The better way is to install patched ctags: http://dfrank.ru/ctags581/en.html'
    else
       echo '* Ctags version: '.s:dCtagsInfo['versionFirstLine']
-      
+
       if (s:dVimprjRoots[ s:curVimprjKey ].mode == '')
          echo '* Filelist: not found'
       elseif (s:dVimprjRoots[ s:curVimprjKey ].mode == 'IndexerFile')
@@ -686,7 +665,7 @@ function! <SID>IndexerInfo()
       if (!s:dVimprjRoots[ s:curVimprjKey ].useDirsInsteadOfFiles)
          echo "* Files indexed: there's ".l:iFilesCnt.' files. Type :IndexerFiles for list.'
          " Type :IndexerFiles to list'
-         echo "* Files not found: there's ".l:iFilesNotFoundCnt.' non-existing files. ' 
+         echo "* Files not found: there's ".l:iFilesNotFoundCnt.' non-existing files. '
          ".join(s:dParseGlobal.not_exist, ', ')
       endif
 
@@ -897,7 +876,7 @@ function! <SID>Indexer_DetectCtags()
 endfunction
 
 " update tags for one project.
-" 
+"
 " params:
 "     sProjFileKey - key for s:dProjFilesParsed
 "     sProjName - project name in this projects file
@@ -911,7 +890,7 @@ function! <SID>UpdateTagsForProject(sProjFileKey, sProjName, sSavedFile)
    if empty(s:dCtagsInfo['boolCtagsExists'])
       call <SID>Indexer_DetectCtags()
    endif
-   
+
    if !empty(s:dCtagsInfo['boolCtagsExists'])
       let l:sTagsFile = s:dProjFilesParsed[ a:sProjFileKey ]["projects"][ a:sProjName ].tagsFilename
       let l:dCurProject = s:dProjFilesParsed[a:sProjFileKey]["projects"][ a:sProjName ]
@@ -952,7 +931,7 @@ function! <SID>UpdateTagsForProject(sProjFileKey, sProjName, sSavedFile)
    call <SID>_AddToDebugLog(s:DEB_LEVEL__PARSE, 'function end: __UpdateTagsForProject__', {'sProjName' : a:sProjName, 'sSavedFile' : a:sSavedFile})
 endfunction
 
-" re-read projects from given file, 
+" re-read projects from given file,
 " update all tags for every project that is already indexed
 "
 function! <SID>UpdateTagsForEveryNeededProjectFromFile(sProjFileKey)
@@ -996,26 +975,6 @@ endfunction
 "                         FUNCTIONS TO PARSE PROJECT FILE OR INDEXER FILE
 " ************************************************************************************************
 
-" возвращает dictionary:
-" dResult[<название_проекта_1>][files]
-"                              [paths]
-"                              [not_exist]
-"                              [pathsForCtags]
-"                              [pathsRoot]
-" dResult[<название_проекта_2>][files]
-"                              [paths]
-"                              [not_exist]
-"                              [pathsForCtags]
-"                              [pathsRoot]
-" ...
-"
-" параметры:                             
-" param aLines все строки файла (т.е. файл надо сначала прочитать)
-" param projectName название проекта, который нужно прочитать.
-"                   если пустой, то будут прочитаны
-"                   все проекты из файла
-" param dExistsResult уже существующий dictionary, к которому будут
-" добавлены полученные результаты
 "
 function! <SID>GetDirsAndFilesFromIndexerList(aLines, projectName, dExistsResult)
    let l:aLines = a:aLines
@@ -1089,7 +1048,7 @@ function! <SID>GetDirsAndFilesFromIndexerList(aLines, projectName, dExistsResult
                endfor
                " parsing this list
                let l:dResult = <SID>GetDirsAndFilesFromIndexerList(l:lIndexerFilesList, a:projectName, l:dResult)
-               
+
             elseif l:boolInNeededProject
                " looks like there's path
                if l:sCurProjName == ''
@@ -1108,7 +1067,7 @@ function! <SID>GetDirsAndFilesFromIndexerList(aLines, projectName, dExistsResult
                      let l:sTmp = substitute(expand(l:varMatch[1]), "\\\\", "\\\\\\\\", "g")
                      " changing $BLABLA to its value (doubleslashed)
                      let l:sLine = substitute(l:sLine, l:sPatt, l:sTmp, "")
-                  else 
+                  else
                      break
                   endif
                endwhile
@@ -1281,7 +1240,7 @@ function! <SID>GetDirsAndFilesFromProjectFile(projectFile, projectName)
       for l:sKey in keys(l:dResult)
          let l:dResult[l:sKey].pathsForCtags = l:dResult[l:sKey].pathsRoot
       endfor
-      
+
    endif
 
    return l:dResult
@@ -1305,8 +1264,6 @@ function! <SID>ParseProjectSettingsFile(sProjFileKey)
    let s:curVimprjKey = l:bufVimprjKey
    call <SID>ApplyVimprjSettings(s:curVimprjKey)
 
-   " для каждого проекта из файла с описанием проектов
-   " указываем параметры:
    "     boolIndexed = 0
    "     tagsFilename - имя файла тегов
    for l:sCurProjName in keys(s:dProjFilesParsed[ a:sProjFileKey ]["projects"])
@@ -1315,19 +1272,10 @@ function! <SID>ParseProjectSettingsFile(sProjFileKey)
       "let l:sTagsFileWOPath = <SID>GetKeyFromPath(a:sProjFileKey.'_'.l:sCurProjName)
       "let l:sTagsFile = s:tagsDirname.'/'.l:sTagsFileWOPath
 
-      " если директория для тегов не указана в конфиге - значит, юзаем
-      " /path/to/.vimprojects_tags/  (или ....indexer_files)
-      " и каждый файл называется так же, как называется проект.
-      "
-      " а если указана, то все теги кладем в нее, и названия файлов
-      " тегов будут длинными, типа: /path/to/tags/D__projects_myproject_vimprj__indexer_files_BK90
-
       if empty(s:indexer_tagsDirname)
-         " директория для тегов НЕ указана
          let l:sTagsDirname = s:dProjFilesParsed[a:sProjFileKey]["filename"]."_tags"
          let l:sTagsFileWOPath = <SID>GetKeyFromPath(l:sCurProjName)
       else
-         " директория для тегов указана
          let l:sTagsDirname = s:indexer_tagsDirname
          let l:sTagsFileWOPath = <SID>GetKeyFromPath(a:sProjFileKey.'_'.l:sCurProjName)
       endif
@@ -1359,12 +1307,11 @@ endfunction
 " (now every file can be owned just by one project)
 "
 " param a:sFile - string like '%' or '<afile>' or something like that.
-" 
+"
 function! <SID>UpdateTagsForFile(sFile, boolJustAppendTags)
    let l:sSavedFile = <SID>ParsePath(expand(a:sFile.':p'))
    "let l:sSavedFilePath = <SID>ParsePath(expand('%:p:h'))
 
-   " для каждого проекта, в который входит файл, ...
 
    for l:lFileProjs in s:dFiles[ s:curFileNum ]["projects"]
       let l:dCurProject = s:dProjFilesParsed[ l:lFileProjs.file ]["projects"][ l:lFileProjs.name ]
@@ -1439,7 +1386,6 @@ function! <SID>OnFileOpen()
    let g:indexer_indexedProjects = []
    let s:lPathsForCtags = []
 
-   " ищем .vimprj
    let l:sVimprjKey = "default"
 
    if s:indexer_lookForProjectDir
@@ -1464,7 +1410,6 @@ function! <SID>OnFileOpen()
          " set directory for tags in .vimprj dir
          " let s:tagsDirname = $INDEXER_PROJECT_ROOT.'/'.s:indexer_dirNameForSearch.'/tags'
 
-         " сбросить все g:indexer_.. на дефолтные
          call <SID>SetDefaultIndexerOptions()
 
 
@@ -1480,16 +1425,13 @@ function! <SID>OnFileOpen()
          call <SID>AddNewVimprjRoot(l:sNewVimprjKey, $INDEXER_PROJECT_ROOT, $INDEXER_PROJECT_ROOT)
          "exec 'cd '.substitute($INDEXER_PROJECT_ROOT, ' ', '\\ ', 'g')
 
-         " проверяем, не открыли ли мы файл из директории .vimprj
          let l:sPathToDirNameForSearch = $INDEXER_PROJECT_ROOT.'/'.s:indexer_dirNameForSearch
          let l:iPathToDNFSlen = strlen(l:sPathToDirNameForSearch)
 
          if (strpart(expand('%:p:h'), 0, l:iPathToDNFSlen) != l:sPathToDirNameForSearch)
-            " нет, открытый файл - не из директории .vimprj, так что применяем
-            " для него настройки из этой директории .vimprj
             let l:sVimprjKey = l:sNewVimprjKey
          endif
-         
+
 
       endif
 
@@ -1498,10 +1440,6 @@ function! <SID>OnFileOpen()
    call <SID>AddCurrentFile(l:sVimprjKey)
 
 
-   " выясняем, какой файл проекта нужно юзать
-   " смотрим: еще не парсили этот файл? (dProjFilesParsed)
-   "    парсим
-   " endif
    if (filereadable(s:dVimprjRoots[ s:curVimprjKey ].indexerListFilename))
       " read all projects from proj file
       let l:sProjFilename = s:dVimprjRoots[ s:curVimprjKey ].indexerListFilename
@@ -1519,14 +1457,12 @@ function! <SID>OnFileOpen()
 
    let l:sProjFileKey = <SID>GetKeyFromPath(l:sProjFilename)
 
-   if (l:sProjFileKey != "") " если нашли файл с описанием проектов
+   if (l:sProjFileKey != "")
       if (!exists("s:dProjFilesParsed['".l:sProjFileKey."']"))
-         " если этот файл еще не обрабатывали
          let s:dProjFilesParsed[ l:sProjFileKey ] = {"filename" : l:sProjFilename, "type" : s:dVimprjRoots[ s:curVimprjKey ].mode, "sVimprjKey" : s:curVimprjKey, "projects" : {} }
 
          call <SID>ParseProjectSettingsFile(l:sProjFileKey)
 
-         " добавляем autocmd BufWritePost для файла с описанием проекта
 
          augroup Indexer_SavPrjFile
             "let l:sPrjFile = substitute(s:dProjFilesParsed[ l:sProjFileKey ]["filename"], '^.*[\\/]\([^\\/]\+\)$', '\1', '')
@@ -1538,41 +1474,11 @@ function! <SID>OnFileOpen()
       endif
 
       "
-      " Если пользователь не указал явно, какой проект он хочет проиндексировать,
-      " ( опция g:indexer_projectName )
-      " то
-      " надо выяснить, какие проекты включать в список проиндексированных.
-      " тут два варианта: 
-      " 1) мы включаем проект, если открытый файл находится в
-      "    любой его поддиректории
-      " 2) мы включаем проект, если открытый файл прямо указан 
-      "    в списке файлов проекта
-      "    
-      " есть опция: g:indexer_enableWhenProjectDirFound, она прямо указывает,
-      "             нужно ли включать любой файл из поддиректории, или нет.
-      "             Но еще есть опция g:indexer_ctagsDontSpecifyFilesIfPossible, и если
-      "             она установлена, то плагин вообще не знает ничего про 
-      "             конкретные файлы, поэтому мы должны себя вести также, какой
-      "             если установлена первая опция.
-      "
-      " Еще один момент: если включаем проект только если открыт файл именно
-      "                  из этого проекта, то просто сравниваем имя файла 
-      "                  со списком файлов из проекта.
-      "
-      "                  А вот если включаем проект, если открыт файл из
-      "                  поддиректории, то нужно еще подниматься вверх по дереву,
-      "                  т.к. может оказаться, что директория, в которой
-      "                  находится открытый файл, является поддиректорией
-      "                  проекта, но не перечислена явно в файле проекта.
-      "
-      "
       if (s:dVimprjRoots[ s:curVimprjKey ].projectName == '')
-         " пользователь не указал явно название проекта. Нам нужно выяснять.
 
          let l:iProjectsAddedCnt = 0
          let l:lProjects = []
          if (s:dVimprjRoots[ s:curVimprjKey ].enableWhenProjectDirFound || s:dVimprjRoots[ s:curVimprjKey ].useDirsInsteadOfFiles)
-            " режим директорий
             for l:sCurProjName in keys(s:dProjFilesParsed[ l:sProjFileKey ]["projects"])
                let l:boolFound = 0
                let l:i = 0
@@ -1580,7 +1486,7 @@ function! <SID>OnFileOpen()
                while (!l:boolFound && l:i < 10)
                   "let l:tmp = input(simplify(expand('%:p:h').l:sCurPath)."====".join(s:dProjFilesParsed[ l:sProjFileKey ]["projects"][l:sCurProjName].paths, ', '))
                   if (<SID>IsFileExistsInList(s:dProjFilesParsed[ l:sProjFileKey ]["projects"][l:sCurProjName].paths, expand('%:p:h').l:sCurPath))
-                     " user just opened file from subdir of project l:sCurProjName. 
+                     " user just opened file from subdir of project l:sCurProjName.
                      " We should add it to result lists
 
                      " adding name of this project to g:indexer_indexedProjects
@@ -1604,7 +1510,6 @@ function! <SID>OnFileOpen()
 
 
          else
-            " режим файлов
             for l:sCurProjName in keys(s:dProjFilesParsed[ l:sProjFileKey ]["projects"])
                if (<SID>IsFileExistsInList(s:dProjFilesParsed[ l:sProjFileKey ]["projects"][l:sCurProjName].files, expand('%:p')))
                   " user just opened file from project l:sCurProjName. We should add it to
@@ -1629,21 +1534,17 @@ function! <SID>OnFileOpen()
          endif
 
       else    " if projectName != ""
-         " пользователь явно указал проект, который нужно проиндексировать
          for l:sCurProjName in keys(s:dProjFilesParsed[ l:sProjFileKey ]["projects"])
             if (l:sCurProjName == s:dVimprjRoots[ s:curVimprjKey ].projectName)
                call <SID>AddNewProjectToCurFile(l:sProjFileKey, l:sCurProjName)
             endif
          endfor
 
-      endif 
+      endif
 
 
-      " теперь запускаем ctags для каждого непроиндексированного проекта, 
-      " в который входит файл
       for l:sCurProj in s:dFiles[ s:curFileNum ].projects
          if (!s:dProjFilesParsed[ l:sCurProj.file ]["projects"][ l:sCurProj.name ].boolIndexed)
-            " генерим теги
             call <SID>UpdateTagsForProject(l:sCurProj.file, l:sCurProj.name, "")
          endif
 
@@ -1654,8 +1555,6 @@ function! <SID>OnFileOpen()
    endif " if l:sProjFileKey != ""
 
 
-   " для того, чтобы при входе в OnBufEnter сработал IsBufChanged, ставим
-   " текущий номер буфера в 0
    let s:curFileNum = 0
 
 
@@ -1872,28 +1771,23 @@ let s:DEB_LEVEL__ASYNC  = 1
 let s:DEB_LEVEL__PARSE  = 2
 let s:DEB_LEVEL__ALL    = 3
 
-" запоминаем начальные &tags, &path
 let s:sTagsDefault = &tags
 let s:sPathDefault = &path
 
-" задаем пустые массивы с данными
 let s:dVimprjRoots = {}
 let s:dProjFilesParsed = {}
 let s:dFiles = {}
 let s:curFileNum = 0
 
-" создаем дефолтный "проект"
 call <SID>AddNewVimprjRoot("default", "", getcwd())
 let s:dFiles[ 0 ] = {'sVimprjKey' : 'default', 'projects': []}
 
-" указываем обработчик открытия нового файла: OnFileOpen
 augroup Indexer_LoadFile
    autocmd! Indexer_LoadFile BufReadPost
    autocmd Indexer_LoadFile BufReadPost * call <SID>OnFileOpen()
    autocmd Indexer_LoadFile BufNewFile * call <SID>OnFileOpen()
 augroup END
 
-" указываем обработчик входа в другой буфер: OnBufEnter
 autocmd BufEnter * call <SID>OnBufEnter()
 
 autocmd BufWritePost * call <SID>OnBufSave()
