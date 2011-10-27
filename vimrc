@@ -91,6 +91,9 @@
 " Sets how many lines of history VIM has to remember
 set history=700
 
+" for pathogen plugin
+call pathogen#infect()
+
 " Enable filetype plugin
 filetype plugin on
 filetype indent on
@@ -178,12 +181,12 @@ if has("gui_running")
   set guioptions-=T
   set guioptions-=M
   set t_Co=256
-  set background=dark
-  colorscheme desertEx
+  set background=light
+  colorscheme solarized
   set nonu
 else
+  set background=light
   colorscheme zellner
-  set background=dark
   set nonu
 endif
 
@@ -683,6 +686,4 @@ if v:version >= 703
     imap <Leader>vv  <C-O>:set paste<CR><C-r>*<C-O>:set nopaste<CR>
 endif
 
-" for pathogen plugin
-call pathogen#infect()
 
