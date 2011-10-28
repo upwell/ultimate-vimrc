@@ -181,7 +181,7 @@ if has("gui_running")
   set guioptions-=T
   set guioptions-=M
   set t_Co=256
-  set background=light
+  set background=dark
   colorscheme solarized
   set nonu
 else
