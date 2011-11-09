@@ -130,7 +130,13 @@ fun! manpageview#ManPageView(viamap,bknum,...) range
 "  call Dfunc("manpageview#ManPageView(viamap=".a:viamap." bknum=".a:bknum.") a:0=".a:0. " version=".g:loaded_manpageview)
   set lz
   let manpageview_fname = expand("%")
-  let bknum             = a:bknum
+
+  if a:bknum == 1
+    let bknum             = 0
+  else
+    let bknum             = a:bknum
+  endif
+
   call s:MPVSaveSettings()
 
   " fix topic {{{3
@@ -249,7 +255,7 @@ fun! manpageview#ManPageView(viamap,bknum,...) range
     let manpagetopic= topic
     if a:viamap == 1 && a:lastline > a:firstline
      let manpagebook= string(a:lastline - a:firstline + 1)
-    elseif a:bknum > 0
+    elseif a:bknum > 1
      let manpagebook= string(a:bknum)
 	else
      let manpagebook= ""
