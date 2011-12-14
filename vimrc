@@ -619,6 +619,7 @@ let g:CommandTMaxHeight = 15
 set wildignore+=*.o,*.obj,.git,*.pyc
 noremap <leader>j :CommandT<cr>
 noremap <leader>y :CommandTFlush<cr>
+noremap <leader>f :CommandTFlush<cr>\|:CommandT %%<cr>
 
 
 """"""""""""""""""""""""""""""
@@ -685,5 +686,3 @@ if v:version >= 703
     map <Leader>vv  :set paste<CR>i<C-r>*<C-O>:set nopaste<CR><ESC>
     imap <Leader>vv  <C-O>:set paste<CR><C-r>*<C-O>:set nopaste<CR>
 endif
-
-
