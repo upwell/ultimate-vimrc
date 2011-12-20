@@ -177,6 +177,7 @@ elseif MySys() == "linux"
   set shell=/bin/bash
 endif
 
+set cursorline
 if has("gui_running")
   set guioptions-=T
   set guioptions-=M
@@ -185,8 +186,9 @@ if has("gui_running")
   colorscheme solarized
   set nonu
 else
-  set background=light
-  colorscheme zellner
+  set t_Co=16
+  set background=dark
+  colorscheme solarized
   set nonu
 endif
 
@@ -197,7 +199,6 @@ catch
 endtry
 
 set ffs=unix,dos,mac "Default file types
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
