@@ -173,7 +173,7 @@ if MySys() == "mac"
 elseif MySys() == "windows"
   set gfn=Bitstream\ Vera\ Sans\ Mono:h10
 elseif MySys() == "linux"
-  set gfn=Inconsolata\ 16
+  set gfn=Inconsolata\ 12
   set shell=/bin/bash
 endif
 
