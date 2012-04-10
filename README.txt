@@ -6,3 +6,4 @@
     step:
     - go to bundle/command-t
     - run # rake make
+
