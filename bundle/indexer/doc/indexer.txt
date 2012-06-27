@@ -5,21 +5,29 @@
 
 
                      By Dmitry Frank
-		            dimon.frank@gmail.com
+                  dimon.frank@gmail.com
 
 Firstly: if you have any questions about this plugin, feel free
 to email me: dimon.frank@gmail.com
 
 
                                           *indexer* *indexer-plugin*
-	Contents:
+   Contents:
 
-         Options.....................|indexer-options|
-         Commands...................|indexer-commands|
-         Background...............|indexer-background|
-         Debug commands.......|indexer-debug-commands|
-         Troubleshooting.....|indexer-troubleshooting|
-         Thanks.......................|indexer-thanks|
+     Dependencies..........................|indexer-dependencies|
+     Options....................................|indexer-options|
+     Commands..................................|indexer-commands|
+     Background..............................|indexer-background|
+     Debug commands......................|indexer-debug-commands|
+     Known bugs....................................|indexer-bugs|
+     Troubleshooting....................|indexer-troubleshooting|
+     Syntax change in 4.10..............|indexer-syn-change-4.10|
+     Thanks......................................|indexer-thanks|
+
+
+Please note: there's some dependencies. Please read |indexer-dependencies|.
+
+                                  * * *
 
 You can use this plugin to automatically index your project files 
 using ctags. This can be very useful when it's used together with plugins
@@ -52,45 +60,44 @@ it by modifying variable g:indexer_indexerListFilename
 Note that this file overrides "~/.vimprojects". If both files exists
 only "~/.indexer_files" will be used.
 
-Syntax of this file is very easy. Propably the best way to explain it
-is show an example.
+Syntax of this file is quite easy. Probably the best way to explain it
+is to show an example.
+
+NOTE! Since Indexer 4.10 syntax of .indexer_files is changed a bit,
+to make ctags work much more effectifely.
+However, old syntax will work too, for backward compatibility.
+You can read detailed info about changes here: |indexer-syn-change-4.10|.
 
 Example file "~/.indexer_files" >
    [CoolProject]
 
-   /home/user/myproject/src/*.c
-   /home/user/myproject/src/*.h
-   /home/user/myproject/inc/*.h
+   /home/user/cool_project
 
    [AnotherProject]
+   option:ctags_params = "--languages=c++"
 
-   /home/user/myproject2**/*.c
-   /home/user/myproject2**/*.h
+   /home/user/another_project/src
+   /home/user/another_project/lib
 
-
-NOTE: 
-   /path/to/dir/*.c     means "files *.c from /path/to/dir"  (e.g. non-recursive)
-   /path/to/dir**/*.c   means "files *.c from /path/to/dir and all subdirectories" (e.g. recursive)
-
-I think, there's all obvious:
+I hope all is obvious:
 there's two projects: CoolProject and AnotherProject.
-in CoolProject there's all *.c files in "myproject/src" and all header 
-files in "myproject/inc". in AnotherProject there's both *.c and *.h 
-files in "myproject2" and all subdirectories recursively. 
-( "**" means recursively )
-It's able to use environment variables in your paths.
-
-You can define the same AnotherProject simplier: 
-      >
-   [AnotherProject]
-
-   /home/user/myproject2**/*.[ch]
+CoolProject just contains ALL files from "/home/user/myproject".
+AnotherProject is configured more complicated.
+It specifies additional parameter for ctags: "--languages=c++".
+It is needed to make ctags ignore all files except c++ sources.
+I would recommend you to read and understand ctags help, to be able to write
+perfect configuration for your projects.
+You can read it here: http://ctags.sourceforge.net/ctags.html
+The options you need to know first is the following two: >
+   --languages=[+|-]<list>
+   --langmap=<map>[,<map[...]>]
 
 If you have many projects and you are lazy to put every project in
 this file, you can put in your ~/.indexer_files something like this:
 
       >
-   [PROJECTS_PARENT filter="*.c *.h *.cpp"]
+   [PROJECTS_PARENT]
+   option:ctags_params="--languages=c++,c,python,java"
 
    ~/workspace
 
@@ -98,10 +105,6 @@ The keyword is PROJECTS_PARENT.
 In this way, every directory in ~/workspace will be interpreted as project,
 and you can open any file from any project in ~/workspace, and the 
 whole proper project will be indexed.
-
-And, finally, it can autodetect project root. So, you can move your 
-project to another place in filesystem, and all files will indexed anyway.
-More detailed see in options, variable "g:indexer_lookForProjectDir".
 
 
 Indexer 3.0 and later supports open several files from several 
@@ -126,10 +129,9 @@ You have two projects: "project1" and "project2", and you use
    Indexer changes &tags back to ~/.indexer_files_tags/project2 .
 
 So, you should not care about your projects. It just works. If you
-have some projects with subprojects, i recommend you use .vimprj directory
+have some projects with subprojects, i recommend you to use .vimprj directory
 with specific settings for your project, in which you can set any 
-options such as &tags, &tabstop, etc. More detailed: read about option
-g:indexer_lookForProjectDir .
+options such as &tags, &tabstop, etc. More detailed: read :help vimprj
 
 Actually, Indexer sets &path for needed project when you swith to new 
 buffer, not only &tags.
@@ -153,76 +155,18 @@ to wait while ctags work. This is not really bad at rather small projects.
 
 
 ========================================================================
+DEPENDENCIES                                        *indexer-dependencies*
+
+You need to download the following scripts to work with this plugin:
+
+Vimprj         ( http://www.vim.org/scripts/script.php?script_id=3872 )
+DfrankUtil     ( http://www.vim.org/scripts/script.php?script_id=3884 )
+
+========================================================================
 OPTIONS                                                  *indexer-options*
 
 You can set these variables in your vimrc file before the plugin is loaded to
 change its default behavior
-
-                                               *indexer_lookForProjectDir*
-g:indexer_lookForProjectDir (default: 1)
-
-   if on, then plugin will recursively-up search for ".vimprj" directory.
-   If it will be found, then plugin will source all "*.vim" files in it,
-   and also will set environment variable $INDEXER_PROJECT_ROOT to
-   directory in which is ".vimprj" directory.
-   
-   Your directory tree example:
-
-      | home
-      | | user
-      | | | myproject
-      | | | | src
-      | | | | |-file1.c
-      | | | | |-file2.c
-      | | | | |-file3.c
-      | | | | |
-      | | | | inc
-      | | | | |-file1.h
-      | | | | |-file2.h
-      | | | | |-file3.h
-      | | | | |
-      | | | | .vimprj
-      | | | | |-conf.vim
-
-   For example, you typing: >
-      $ gvim /home/user/myproject/src/file1.c
-----
-
-   Then Indexer will detect your /home/user/myproject/.vimprj directory
-   and source all files *.vim from it,
-   and set $INDEXER_PROJECT_ROOT="/home/user/myproject"
-
-   so, you can define any settings that are individual for
-   your project, such as another .vimprojects file, tabstop, shiftwidth,
-   or any other.
-
-   This is great for people like me, that likes when ALL project files
-   is in only one directory.
-
-   When i need to copy project to another computer i just copying the
-   whole folder, and all is done. I using $INDEXER_PROJECT_ROOT variable
-   in my .vimprojects file, so that i can put project in any place in
-   filesystem, and all files will be indexed, because 
-   $INDEXER_PROJECT_ROOT will be always my real project root.
-
-   If you have several projects with .vimprj directory, then you can open
-   files from each project, and settings will be sourced every time you
-   switch to buffer from another project. So, you might want to have
-   some default settings that will be applied every time before
-   source ".vimprj/*vim" files. There's option 
-   g:indexer_defaultSettingsFilename to set name of file with default
-   settings. You can specify your vimrc in it actually, but it will
-   work slow if your vimrc not very small.
-
-                                               *indexer_dirNameForSearch*
-g:indexer_dirNameForSearch (default: ".vimprj")
-
-   directory name with project settings for search (".vimprj" by default)
-
-                                               *indexer_recurseUpCount*
-g:indexer_recurseUpCount (default: 10)
-
-   count of recurse-up for search ".vimprj" directory
 
                                                *indexer_indexerListFilename*
 g:indexer_indexerListFilename (default: "~/.indexer_files")
@@ -244,7 +188,7 @@ g:indexer_projectName (default: '')
                                           *indexer_enableWhenProjectDirFound*
 g:indexer_enableWhenProjectDirFound (default: 1)
 
-   If this option is set, then if gvim started from project directory, this project
+   If this option is set, then if Vim started from project directory, this project
    will be indexed. Otherwise project will be indexed only if there's file 
    from this project opened 
 
@@ -287,12 +231,43 @@ g:indexer_ctagsJustAppendTagsAtFileSave
    to wait while ctags is working.
    
 
-                                      *indexer_ctagsDontSpecifyFilesIfPossible*
-g:indexer_ctagsDontSpecifyFilesIfPossible (default: 0)
+                                                  *indexer_ctagsWriteFilelist*
+g:indexer_ctagsWriteFilelist (default: 1)
 
-   When this option is on, ctags starts just for project root
-   directories with "-R" key. Works a little faster in most cases,
-   but you can't specify what especially files should be indexed.
+   Added in Indexer 4.10.
+
+   When 1, filelist is generated, saved into file and passed to ctags
+   with "-L" key instead of passing all the files via command line.
+   File is stored in the same dir as tags file.
+   This is very useful on large projects, if there are too many files and
+   in Indexer < 4.10 we needed to call ctags several times with "-a" key,
+   which works slower.
+   
+   When 0, all the files is passed to ctags directly via command line.
+   To be honest, i can't find the reason why you might want to set this option
+   to 0.
+
+
+                                      *indexer_ctagsDontSpecifyFilesIfPossible*
+g:indexer_ctagsDontSpecifyFilesIfPossible (possible values: -1, 0, 1; default: -1)
+
+   Please NOTE: since Indexer 4.10 this option is deprecated a bit, because
+   there's really no reasons to use non-default value.
+   1) When used together with project.tar.gz plugin, we need to use files,
+      and since Indexer 4.10 if works as fast as with dirs, because files is
+      stored in separate file and ctags is called with -L key.
+   2) When used with .indexer_files, then we should use dirs mode, because
+      expanding wildcards is expensive operation, and since Indexer 4.10 you
+      can define file filters in options:ctags_params, which works very fast.
+
+   ---
+
+   When this option is 1, only project roots is passed to ctags with "-R" key.
+
+   When this option is 0, each file is passed to ctags.
+
+   When this option is -1, then with .indexer_files it behaves like 1,
+   but with .vimprojects it behaves like 0.
 
                                                     *indexer_maxOSCommandLen*
 g:indexer_maxOSCommandLen (default: OS depending)
@@ -338,6 +313,19 @@ g:indexer_backgroundDisabled (default: 0)
   there was some problems with background tags generation. These troubles
   is solved in Indexer 3.14, but i don't know where i face same 
   troubles again =)
+
+                                                      *indexer_vimExecutable*
+g:indexer_vimExecutable (default: '*auto*')
+
+  Indexer needs to execute Vim when tags generation is done, to achieve
+  background asynchronous tags generation.
+
+  If this variable has default value '*auto*', then Indexer will try to detect
+  executable name automatically: on MacVim it should be "mvim", on all other 
+  systems it should be "vim".
+
+  If you need your custom vim to be executed, specify it in this variable.
+   
 
                                                       *indexer_debugLogLevel*
 g:indexer_debugLogLevel (default: 0)
@@ -395,6 +383,16 @@ COMMANDS                                                  *indexer-commands*
 
 
 ========================================================================
+KNOWN BUGS                                                *indexer-bugs*
+
+*) If you edited .indexer_files or .vimprojects and you renamed your project,
+   then you will get errors until Vim is restarted.
+*) If ctags becomed hung, then all your tags generation is silently broken 
+   until Vim is restarted.
+   I myself found that ctags becomes hung while parsing several *.vim files.
+
+
+========================================================================
 TROUBLESHOOTING                                *indexer-troubleshooting*
 
 There's no normal troubleshooting manual written yet ;)
@@ -403,18 +401,96 @@ Well, if you have troubles, please do the following:
 
 *) put in your vimrc following line:
       let g:indexer_debugLogLevel = 2
-*) close Vim, open it again and open any file from project.
+*) close Vim, open it again and reproduce the trouble.
 *) type:
       :IndexerDebugSave
    and enter filename to save snapshot (for instance, ~/vim_dbg.txt)
 *) send to me resulting snapshot file, provide detailed info 
-   about troubles, and tell:
-   -) what Vim version do you use
-   -) what OS do you use
+   about troubles
 
 *) don't forget to set g:indexer_debugLogLevel = 0 again, to avoid
    useless memory allocation.
 
+
+========================================================================
+SYNTAX CHANGES IN 4.10                         *indexer-syn-change-4.10*
+
+Since Indexer 4.10 syntax of .indexer_files is changed a bit,
+to make ctags settings much more effectife.
+However, old syntax will work too, for backward compatibility.
+
+Overview of changes:
+
+No more need to define something like "**/*.c". I mean, you need
+to write this: >
+   /home/user/myproject
+Instead of this: >
+   /home/user/myproject**/*.c
+   /home/user/myproject**/*.h
+
+To declare these filters, please use additional ctags params.
+For instance, if you have C project, you can declare it like that: >
+   [My_C_project]
+   option:ctags_params = "--langmap=c:.c.h --languages=c"
+
+   /path/to/c/project
+
+And that's it. For C++ project that's a bit easier: >
+
+   [My_Cpp_project]
+   option:ctags_params = "--languages=c++"
+
+   /path/to/cpp/project
+
+You have not to define "--langmap" here because default ctags langmap for C++
+already includes many file extensions. See all mappings by typing >
+   ctags --list-maps
+
+Yes, you need to read ctags help to be able to write efficient config for
+Indexer. I would recommend you to examine firstly these two options: >
+   --languages=[+|-]<list>
+   --langmap=<map>[,<map[...]>]
+You can read ctags help here: http://ctags.sourceforge.net/ctags.html
+
+Please note: suggested ctags options is tested with ctags 5.8. As far as i
+know, option --languages is marked as deprecated in ctags 5.9, but i still did
+not test it, because the latest version on http://ctags.sourceforge.net is
+still 5.8. I hope i will have time for this soon.
+
+Filters in PROJECTS_PARENT is also not needed now.
+Actually (between ourselves) all these filters (in usual projects and
+in PROJECTS_PARENT) were ignored by default! I'm sorry about that, but 
+that's because to apply these filters we need to expand all wildcards 
+directly in Vim, and this takes really much time on large projects, so, 
+Indexer just passed to ctags root directory, and ctags worked with it in 
+background.
+Unfortunately ctags can't take filename wildcards like "*.c", so, it works
+simply without any filters.
+
+To apply old-school filters you needed to manually set the following option: >
+   let g:indexer_ctagsDontSpecifyFilesIfPossible = 0
+And Indexer will work slower then.
+
+But now you can control it by specifying options:ctags_params. 
+I hope you like it.
+
+By the way, if you have g:indexer_ctagsDontSpecifyFilesIfPossible specified
+by hand, then you probably should remove it since Indexer 4.10.
+Read this: |indexer_ctagsDontSpecifyFilesIfPossible|.
+
+You can declare several [PROJECTS_PARENT] items with special ctags_params
+in each project parent. Just like that: >
+
+   [PROJECTS_PARENT]
+
+   option:ctags_params="--langmap=c:.c.h --languages=c"
+   /home/user/projects/c
+
+   option:ctags_params="--languages=c++"
+   /home/user/projects/cpp
+
+You can always see the last ctags command by typing >
+   :IndexerDebugInfo
 
 ========================================================================
 THANKS                                                  *indexer-thanks*
@@ -422,11 +498,13 @@ THANKS                                                  *indexer-thanks*
 There's some people i'd like to say thanks for help with make Indexer better:
 
 * Makoto Nokata
+* Julian Kooij
 * Alexander Q
 * Torkve
 * Dan Price
 * Thiago Bellini
 * Shi Haipend 
 * Alexander Pazdnikov
+* Asis Hallab
 
  vim:ft=help:tw=78:  
