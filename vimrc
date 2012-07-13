@@ -617,6 +617,7 @@ map <leader>f :MRU<CR>
 " => Command-T
 """"""""""""""""""""""""""""""
 let g:CommandTMaxHeight = 15
+let g:CommandTMaxFiles = 50000
 let g:CommandTAcceptSelectionSplitMap=['<C-g>']
 set wildignore+=*.o,*.obj,.git,*.pyc
 noremap <leader>j :CommandT<cr>
