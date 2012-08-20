@@ -111,13 +111,13 @@ nmap <leader>w :w!<cr>
 
 if MySys() == "windows"
     " Fast editing of the .vimrc
-    map <leader>e :e! ~/_vim_runtime/vimrc<cr>
+    map <leader>r :e! ~/_vim_runtime/vimrc<cr>
 
     " When vimrc is edited, reload it
     autocmd! bufwritepost vimrc source ~/_vim_runtime/vimrc
 else
     " Fast editing of the .vimrc
-    map <leader>e :e! ~/.vim_runtime/vimrc<cr>
+    map <leader>r :e! ~/.vim_runtime/vimrc<cr>
 
     " When vimrc is edited, reload it
     autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc
@@ -689,3 +689,6 @@ if v:version >= 703
     map <Leader>vv  :set paste<CR>i<C-r>*<C-O>:set nopaste<CR><ESC>
     imap <Leader>vv  <C-O>:set paste<CR><C-r>*<C-O>:set nopaste<CR>
 endif
+
+" indexer plugin settings
+let g:indexer_disableCtagsWarning=1
