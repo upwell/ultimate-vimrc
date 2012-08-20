@@ -617,6 +617,7 @@ map <leader>f :MRU<CR>
 " => Command-T
 """"""""""""""""""""""""""""""
 let g:CommandTMaxHeight = 15
+let g:CommandTMaxFiles = 50000
 let g:CommandTAcceptSelectionSplitMap=['<C-g>']
 set wildignore+=*.o,*.obj,.git,*.pyc
 noremap <leader>j :CommandT<cr>
@@ -688,3 +689,6 @@ if v:version >= 703
     map <Leader>vv  :set paste<CR>i<C-r>*<C-O>:set nopaste<CR><ESC>
     imap <Leader>vv  <C-O>:set paste<CR><C-r>*<C-O>:set nopaste<CR>
 endif
+
+" indexer plugin settings
+let g:indexer_disableCtagsWarning=1
