@@ -254,7 +254,8 @@ vnoremap <silent> # :call VisualSelection('b')<CR>
 vnoremap <silent> gv :call VisualSelection('gv')<CR>
 
 " Some useful keys for vimgrep
-map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
+map <leader>g :vimgrep // <C-R>=expand('%:p:h') . '/'<CR>*.
+"map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
 map <leader><space> :vimgrep // <C-R>%<C-A><right><right><right><right><right><right><right><right><right>
 
 " When you press <leader>r you can search and replace the selected text
@@ -692,3 +693,7 @@ endif
 
 " indexer plugin settings
 let g:indexer_disableCtagsWarning=1
+
+" plpgsql syntax
+au BufNewFile,BufRead *.sql set filetype=pgsql
+
