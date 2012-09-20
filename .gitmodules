@@ -19,3 +19,6 @@
 [submodule "bundle/molokai"]
 	path = bundle/molokai
 	url = https://github.com/tomasr/molokai.git
+[submodule "bundle/pgsql"]
+	path = bundle/pgsql
+	url = https://github.com/exu/pgsql.vim.git
