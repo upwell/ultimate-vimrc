@@ -22,3 +22,6 @@
 [submodule "bundle/pgsql"]
 	path = bundle/pgsql
 	url = https://github.com/exu/pgsql.vim.git
+[submodule "bundle/vim-javascript"]
+	path = bundle/vim-javascript
+	url = https://github.com/pangloss/vim-javascript.git
