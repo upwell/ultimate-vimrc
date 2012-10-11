@@ -4,11 +4,11 @@
 "
 " Version: 3.6 - 25/08/10 14:40:30
 "
-" Blog_post: 
+" Blog_post:
 "       http://amix.dk/blog/post/19486#The-ultimate-vim-configuration-vimrc
 " Syntax_highlighted:
 "       http://amix.dk/vim/vimrc.html
-" Raw_version: 
+" Raw_version:
 "       http://amix.dk/vim/vimrc.txt
 "
 " How_to_Install_on_Unix:
@@ -46,7 +46,7 @@
 "     > minibufexpl.vim - http://www.vim.org/scripts/script.php?script_id=159
 "       Makes it easy to get an overview of buffers:
 "           info -> :e ~/.vim_runtime/plugin/minibufexpl.vim
-" 
+"
 "     > bufexplorer - http://www.vim.org/scripts/script.php?script_id=42
 "       Makes it easy to switch between buffers:
 "           info -> :help bufExplorer
@@ -77,7 +77,7 @@
 "     > 3.6: Added lots of stuff (colors, Command-T, Vim 7.3 persistent undo etc.)
 "     > 3.5: Paste mode is now shown in status line  if you are in paste mode
 "     > 3.4: Added mru.vim
-"     > 3.3: Added syntax highlighting for Mako mako.vim 
+"     > 3.3: Added syntax highlighting for Mako mako.vim
 "     > 3.2: Turned on python_highlight_all for better syntax
 "            highlighting for Python
 "     > 3.1: Added revisions ;) and bufexplorer.vim
@@ -148,7 +148,7 @@ set smartcase
 set hlsearch "Highlight search things
 
 set incsearch "Make search act like search in modern browsers
-set nolazyredraw "Don't redraw while executing macros 
+set nolazyredraw "Don't redraw while executing macros
 
 set magic "Set magic on, for regular expressions
 
@@ -215,7 +215,7 @@ try
     else
       set undodir=~/.vim_runtime/undodir
     endif
-    
+
     set undofile
 catch
 endtry
@@ -263,12 +263,12 @@ vnoremap <silent> <leader>r :call VisualSelection('replace')<CR>
 
 "
 " From an idea by Michael Naumann
-" 
+"
 function! CmdLine(str)
     exe "menu Foo.Bar :" . a:str
     emenu Foo.Bar
     unmenu Foo
-endfunction 
+endfunction
 
 function! VisualSelection(direction) range
     let l:saved_reg = @"
@@ -322,7 +322,7 @@ cmap ½ $
 
 func! Cwd()
   let cwd = getcwd()
-  return "e " . cwd 
+  return "e " . cwd
 endfunc
 
 func! DeleteTillSlash()
@@ -338,7 +338,7 @@ func! DeleteTillSlash()
     else
       let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\\]\\).*\[\\\\\]", "\\1", "")
     endif
-  endif   
+  endif
   return g:cmd_edited
 endfunc
 
@@ -405,7 +405,7 @@ function! <SID>BufcloseCloseIt()
    endif
 endfunction
 
-" Specify the behavior when switching between buffers 
+" Specify the behavior when switching between buffers
 try
   set switchbuf=usetab
   set stal=1
@@ -503,7 +503,8 @@ func! DeleteTrailingWS()
   %s/\s\+$//ge
   exe "normal `z"
 endfunc
-autocmd BufWrite *.py :call DeleteTrailingWS()
+autocmd BufWrite *.py,*.c,*.h,*.cpp,*.java,*.jsp,*.txt,*.sql :call DeleteTrailingWS()
+nmap <Leader>ds :call DeleteTillSlash()<CR>
 
 set guitablabel=%t
 
@@ -572,14 +573,14 @@ au FileType python syn keyword pythonDecorator True None False self
 au BufNewFile,BufRead *.jinja set syntax=htmljinja
 au BufNewFile,BufRead *.mako set ft=mako
 
-au FileType python inoremap <buffer> $r return 
-au FileType python inoremap <buffer> $i import 
-au FileType python inoremap <buffer> $p print 
+au FileType python inoremap <buffer> $r return
+au FileType python inoremap <buffer> $i import
+au FileType python inoremap <buffer> $p print
 au FileType python inoremap <buffer> $f #--- PH ----------------------------------------------<esc>FP2xi
-au FileType python map <buffer> <leader>1 /class 
-au FileType python map <buffer> <leader>2 /def 
-au FileType python map <buffer> <leader>C ?class 
-au FileType python map <buffer> <leader>D ?def 
+au FileType python map <buffer> <leader>1 /class
+au FileType python map <buffer> <leader>2 /def
+au FileType python map <buffer> <leader>C ?class
+au FileType python map <buffer> <leader>D ?def
 
 
 """"""""""""""""""""""""""""""
@@ -592,10 +593,10 @@ au FileType javascript setl nocindent
 au FileType javascript imap <c-t> AJS.log();<esc>hi
 au FileType javascript imap <c-a> alert();<esc>hi
 
-au FileType javascript inoremap <buffer> $r return 
+au FileType javascript inoremap <buffer> $r return
 au FileType javascript inoremap <buffer> $f //--- PH ----------------------------------------------<esc>FP2xi
 
-function! JavaScriptFold() 
+function! JavaScriptFold()
     setl foldmethod=syntax
     setl foldlevelstart=1
     syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
