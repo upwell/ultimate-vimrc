@@ -698,3 +698,17 @@ let g:indexer_disableCtagsWarning=1
 " plpgsql syntax
 au BufNewFile,BufRead *.sql set filetype=pgsql
 
+" format code with astyle
+map <Leader>fc <ESC>:%!astyle
+                        \ --style=bsd
+                        \ --convert-tabs
+                        \ --indent-switches
+                        \ --indent-namespaces
+                        \ --indent-preprocessor
+                        \ --max-instatement-indent=40
+                        \ --indent-col1-comments
+                        \ --pad-oper
+                        \ --break-blocks
+                        \ --lineend=linux
+                        \ --mode=c <CR>
+
