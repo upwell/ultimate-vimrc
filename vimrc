@@ -712,3 +712,6 @@ map <Leader>fc <ESC>:%!astyle
                         \ --lineend=linux
                         \ --mode=c <CR>
 
+" vimdiff shortcut
+map <Leader>df :diffput<CR>
+map <Leader>dg :diffget<CR>
