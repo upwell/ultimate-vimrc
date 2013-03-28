@@ -586,6 +586,8 @@ au FileType python setlocal indentexpr=GetGooglePythonIndent(v:lnum)
 au FileType python let pyindent_nested_paren="&sw*2"
 au FileType python let pyindent_open_paren="&ws*2"
 
+let g:pydiction_location="~/.vim_runtime/bundle/pydiction/complete-dict"
+
 """"""""""""""""""""""""""""""
 " => JavaScript section
 """""""""""""""""""""""""""""""
