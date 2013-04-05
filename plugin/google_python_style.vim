@@ -1,6 +1,6 @@
 " Indent Python in the Google way.
 
-setlocal indentexpr=GetGooglePythonIndent(v:lnum)
+"setlocal indentexpr=GetGooglePythonIndent(v:lnum)
 
 let s:maxoff = 50 " maximum number of lines to look backwards.
 
@@ -32,5 +32,5 @@ function GetGooglePythonIndent(lnum)
 
 endfunction
 
-let pyindent_nested_paren="&sw*2"
-let pyindent_open_paren="&sw*2"
+"let pyindent_nested_paren="&sw*2"
+"let pyindent_open_paren="&sw*2"
