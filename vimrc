@@ -582,6 +582,11 @@ au FileType python map <buffer> <leader>2 /def
 au FileType python map <buffer> <leader>C ?class
 au FileType python map <buffer> <leader>D ?def
 
+au FileType python setlocal indentexpr=GetGooglePythonIndent(v:lnum)
+au FileType python let pyindent_nested_paren="&sw*2"
+au FileType python let pyindent_open_paren="&ws*2"
+
+let g:pydiction_location="~/.vim_runtime/bundle/pydiction/complete-dict"
 
 """"""""""""""""""""""""""""""
 " => JavaScript section
@@ -715,3 +720,7 @@ map <Leader>fc <ESC>:%!astyle
 " vimdiff shortcut
 map <Leader>df :diffput<CR>
 map <Leader>dg :diffget<CR>
+
+" markdown no auto fold
+au FileType mkd setlocal nofoldenable
+
