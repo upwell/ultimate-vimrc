@@ -37,3 +37,9 @@
 [submodule "bundle/pydiction"]
 	path = bundle/pydiction
 	url = git://github.com/rkulla/pydiction.git
+[submodule "bundle/vim-multiple-cursors"]
+	path = bundle/vim-multiple-cursors
+	url = https://github.com/terryma/vim-multiple-cursors.git
+[submodule "bundle/easymotion"]
+	path = bundle/easymotion
+	url = https://github.com/Lokaltog/vim-easymotion.git
