@@ -706,7 +706,7 @@ au BufNewFile,BufRead *.sql set filetype=pgsql
 " format code with astyle
 map <Leader>fc <ESC>:%!astyle
                         \ --style=bsd
-                        \ --convert-tabs
+                        \ --indent=force-tab=4
                         \ --indent-switches
                         \ --indent-namespaces
                         \ --indent-preprocessor
