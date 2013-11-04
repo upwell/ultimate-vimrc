@@ -224,7 +224,7 @@ endtry
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set expandtab
+set noexpandtab
 set shiftwidth=4
 set tabstop=4
 set smarttab
@@ -707,7 +707,7 @@ au BufNewFile,BufRead *.sql set filetype=pgsql
 
 map <Leader>fc <ESC>:%!astyle
                         \ --style=bsd
-                        \ --convert-tabs
+                        \ --indent=force-tab=4
                         \ --indent-switches
                         \ --indent-namespaces
                         \ --indent-preprocessor
