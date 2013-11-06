@@ -704,6 +704,7 @@ let g:indexer_disableCtagsWarning=1
 au BufNewFile,BufRead *.sql set filetype=pgsql
 
 " format code with astyle
+
 map <Leader>fc <ESC>:%!astyle
                         \ --style=bsd
                         \ --indent=force-tab=4
@@ -713,9 +714,31 @@ map <Leader>fc <ESC>:%!astyle
                         \ --max-instatement-indent=40
                         \ --indent-col1-comments
                         \ --pad-oper
+                        \ --unpad-paren
                         \ --break-blocks
                         \ --lineend=linux
+                        \ --align-pointer=type
+                        \ --align-reference=type
+                        \ --max-code-length=80
                         \ --mode=c <CR>
+
+vnoremap <Leader>fc :!astyle
+                        \ --style=bsd
+                        \ --convert-tabs
+                        \ --indent-switches
+                        \ --indent-namespaces
+                        \ --indent-preprocessor
+                        \ --max-instatement-indent=40
+                        \ --indent-col1-comments
+                        \ --pad-oper
+                        \ --unpad-paren
+                        \ --break-blocks
+                        \ --lineend=linux
+                        \ --align-pointer=type
+                        \ --align-reference=type
+                        \ --max-code-length=80
+                        \ --mode=c <CR>
+
 
 " vimdiff shortcut
 map <Leader>df :diffput<CR>
