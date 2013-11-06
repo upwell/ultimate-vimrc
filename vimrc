@@ -450,7 +450,7 @@ function! HasPaste()
 endfunction
 
 " Format the statusline
-set statusline=\ %{HasPaste()}%F\ [%{&ff}]\ %m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ [%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ \ Line:\ %l/%L
+set statusline=\ %{HasPaste()}%F\ [%{&ff}]\ %m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ [%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ \ Line:\ %l/%L\ \ Col:\ %c
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Parenthesis/bracket expanding
