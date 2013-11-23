@@ -224,7 +224,7 @@ endtry
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set noexpandtab
+set expandtab
 set shiftwidth=4
 set tabstop=4
 set smarttab
