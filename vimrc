@@ -719,12 +719,12 @@ map <Leader>fc <ESC>:%!astyle
                         \ --lineend=linux
                         \ --align-pointer=type
                         \ --align-reference=type
-                        \ --max-code-length=80
+                        \ --max-code-length=120
                         \ --mode=c <CR>
 
 vnoremap <Leader>fc :!astyle
                         \ --style=bsd
-                        \ --convert-tabs
+                        \ --indent=force-tab=4
                         \ --indent-switches
                         \ --indent-namespaces
                         \ --indent-preprocessor
@@ -736,7 +736,7 @@ vnoremap <Leader>fc :!astyle
                         \ --lineend=linux
                         \ --align-pointer=type
                         \ --align-reference=type
-                        \ --max-code-length=80
+                        \ --max-code-length=120
                         \ --mode=c <CR>
 
 
