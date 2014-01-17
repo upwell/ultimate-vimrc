@@ -1,8 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Maintainer: amix the lucky stiff
 "             http://amix.dk - amix@amix.dk
-"
-" Version: 3.6 - 25/08/10 14:40:30
+" " Version: 3.6 - 25/08/10 14:40:30
 "
 " Blog_post:
 "       http://amix.dk/blog/post/19486#The-ultimate-vim-configuration-vimrc
@@ -105,6 +104,7 @@ Bundle 'Valloric/YouCompleteMe'
 Bundle 'tpope/vim-fugitive'
 Bundle 'klen/python-mode'
 Bundle 'terryma/vim-multiple-cursors'
+Bundle 'Lokaltog/powerline'
 
 " Enable filetype plugin
 filetype plugin on
@@ -464,7 +464,7 @@ function! HasPaste()
 endfunction
 
 " Format the statusline
-set statusline=\ %{HasPaste()}%F\ [%{&ff}]\ %m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ [%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ \ Line:\ %l/%L\ \ Col:\ %c
+"set statusline=\ %{HasPaste()}%F\ [%{&ff}]\ %m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ [%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ \ Line:\ %l/%L\ \ Col:\ %c
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Parenthesis/bracket expanding
@@ -775,3 +775,7 @@ let g:pymode_lint = 0
 let g:pymode_folding = 0
 let g:pymode_run = 1
 let g:pymode_run_bind = '<leader><leader>r'
+
+" powerline
+set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+
