@@ -93,6 +93,18 @@ set history=700
 
 " for pathogen plugin
 call pathogen#infect()
+call pathogen#helptags()
+
+" vundle
+set nocompatible
+filetype off
+set rtp+=./bundle/vundle
+call vundle#rc()
+Bundle 'gmarik/vundle'
+Bundle 'Valloric/YouCompleteMe'
+Bundle 'tpope/vim-fugitive'
+Bundle 'klen/python-mode'
+Bundle 'terryma/vim-multiple-cursors'
 
 " Enable filetype plugin
 filetype plugin on
@@ -239,6 +251,8 @@ set wrap "Wrap lines
 "adjust the indent for pulic in c++
 "see :he cinooptions-values for more info
 set cino=g0
+
+set colorcolumn=100
 
 
 """"""""""""""""""""""""""""""
@@ -525,7 +539,10 @@ let g:bufExplorerDefaultHelp=0
 let g:bufExplorerShowRelativePath=1
 let g:bufExplorerFindActive=1
 let g:bufExplorerSortBy='name'
+let g:bufExplorerUseCurrentWindow=1
 map <leader>o :BufExplorer<cr>
+map <leader>s :BufExplorerHorizontalSplit<cr>
+map <leader>v :BufExplorerVerticalSplit<cr>
 
 
 """"""""""""""""""""""""""""""
@@ -747,3 +764,14 @@ map <Leader>dg :diffget<CR>
 " markdown no auto fold
 au FileType mkd setlocal nofoldenable
 
+" syntastic options
+" let g:syntastic_python_pylint_args='-d C0111'
+" pylint is really slow, disable it
+let g:syntastic_python_checkers = ['flake8', 'pyflakes']
+let g:syntastic_python_flake8_args = "--max-line-length=100"
+
+" python mode
+let g:pymode_lint = 0
+let g:pymode_folding = 0
+let g:pymode_run = 1
+let g:pymode_run_bind = '<leader><leader>r'

@@ -55,3 +55,6 @@
 [submodule "bundle/vim-surround"]
 	path = bundle/vim-surround
 	url = https://github.com/tpope/vim-surround.git
+[submodule "bundle/vundle"]
+	path = bundle/vundle
+	url = git@github.com:gmarik/vundle.git
