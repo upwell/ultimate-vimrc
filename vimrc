@@ -105,6 +105,8 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'klen/python-mode'
 Bundle 'terryma/vim-multiple-cursors'
 Bundle 'Lokaltog/powerline'
+Bundle 'Raimondi/delimitMate'
+Bundle 'tpope/vim-commentary'
 
 " Enable filetype plugin
 filetype plugin on
@@ -773,9 +775,14 @@ let g:syntastic_python_flake8_args = "--max-line-length=100"
 " python mode
 let g:pymode_lint = 0
 let g:pymode_folding = 0
+let g:pymode_rope_completion = 0
 let g:pymode_run = 1
 let g:pymode_run_bind = '<leader><leader>r'
 
 " powerline
 set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 
+" youcompleteme
+let g:ycm_complete_in_comments = 0
+let g:ycm_complete_in_strings = 0
+let g:ycm_filetype_blacklist = {'html': 1, 'txt': 1}
