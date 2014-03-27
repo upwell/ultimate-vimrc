@@ -107,6 +107,8 @@ Bundle 'terryma/vim-multiple-cursors'
 Bundle 'Lokaltog/powerline'
 Bundle 'Raimondi/delimitMate'
 Bundle 'tpope/vim-commentary'
+Bundle 'airblade/vim-gitgutter'
+"Bundle 'Yggdroot/indentLine'
 
 " Enable filetype plugin
 filetype plugin on
@@ -692,6 +694,7 @@ nmap tt :TlistToggle<cr>
 " Use \e instead of :e to edit file in the same directory
 " with the current file
 nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
+nnoremap <Leader>sp :sp <C-R>=expand('%:p:h') . '/'<CR>
 
 " Auto Close the Tag list of inactive buffer
 let Tlist_File_Fold_Auto_Close = 1
@@ -786,3 +789,7 @@ set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 let g:ycm_complete_in_comments = 0
 let g:ycm_complete_in_strings = 0
 let g:ycm_filetype_blacklist = {'html': 1, 'txt': 1}
+nnoremap <leader>gd :YcmCompleter GoToDefinition<CR>
+
+" indent line
+" map <leader>il :IndentLinesToggle<CR>
