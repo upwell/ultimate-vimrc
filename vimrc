@@ -94,6 +94,10 @@ set history=700
 call pathogen#infect()
 call pathogen#helptags()
 
+" Enable filetype plugin
+filetype plugin on
+filetype indent on
+
 " vundle
 set nocompatible
 filetype off
@@ -108,11 +112,11 @@ Bundle 'Lokaltog/powerline'
 Bundle 'Raimondi/delimitMate'
 Bundle 'tpope/vim-commentary'
 Bundle 'airblade/vim-gitgutter'
-"Bundle 'Yggdroot/indentLine'
-
-" Enable filetype plugin
-filetype plugin on
-filetype indent on
+Bundle 'gregsexton/gitv'
+Bundle 'SirVer/ultisnips'
+Bundle 'honza/vim-snippets'
+" Bundle 'hynek/vim-python-pep8-indent.git'
+" Bundle 'Yggdroot/indentLine'
 
 " Set to auto read when a file is changed from the outside
 set autoread
@@ -603,11 +607,6 @@ au FileType python map <buffer> <leader>2 /def
 au FileType python map <buffer> <leader>C ?class
 au FileType python map <buffer> <leader>D ?def
 
-au FileType python setlocal indentexpr=GetGooglePythonIndent(v:lnum)
-au FileType python let pyindent_nested_paren="&sw*2"
-au FileType python let pyindent_open_paren="&ws*2"
-
-let g:pydiction_location="~/.vim_runtime/dict/python/complete-dict"
 
 """"""""""""""""""""""""""""""
 " => JavaScript section
@@ -776,6 +775,7 @@ let g:syntastic_python_checkers = ['flake8', 'pyflakes']
 let g:syntastic_python_flake8_args = "--max-line-length=100"
 
 " python mode
+let g:pymode_indent = 1
 let g:pymode_lint = 0
 let g:pymode_folding = 0
 let g:pymode_rope_completion = 0
@@ -793,3 +793,13 @@ nnoremap <leader>gd :YcmCompleter GoToDefinition<CR>
 
 " indent line
 " map <leader>il :IndentLinesToggle<CR>
+
+" ultisnips
+let g:UltiSnipsExpandTrigger="<c-e>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsEditSplit="vertical"
+
+" gitgutter
+nmap [h <Plug>GitGutterPrevHunk
+nmap ]h <Plug>GitGutterNextHunk
