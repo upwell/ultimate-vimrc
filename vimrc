@@ -94,32 +94,41 @@ set history=700
 call pathogen#infect()
 call pathogen#helptags()
 
-" Enable filetype plugin
-filetype plugin on
-filetype indent on
-
 " vundle
 set nocompatible
 filetype off
-set rtp+=./bundle/vundle
-call vundle#rc()
-Bundle 'gmarik/vundle'
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'tpope/vim-fugitive'
-Bundle 'klen/python-mode'
-Bundle 'terryma/vim-multiple-cursors'
-Bundle 'Lokaltog/powerline'
-Bundle 'Raimondi/delimitMate'
-Bundle 'tpope/vim-commentary'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'gregsexton/gitv'
-Bundle 'SirVer/ultisnips'
-Bundle 'honza/vim-snippets'
-" Bundle 'hynek/vim-python-pep8-indent.git'
-" Bundle 'Yggdroot/indentLine'
+" set rtp+=~/.vim/bundle/Vundle.vim
+" call vundle#rc()
+" Bundle 'gmarik/Vundle.vim'
+
+set rtp+=~/.vim/bundle/neobundle.vim/
+call neobundle#begin(expand('~/.vim/bundle/'))
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+NeoBundle 'Valloric/YouCompleteMe'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'klen/python-mode'
+NeoBundle 'terryma/vim-multiple-cursors'
+NeoBundle 'Lokaltog/powerline'
+NeoBundle 'Raimondi/delimitMate'
+NeoBundle 'tpope/vim-commentary'
+NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'gregsexton/gitv'
+NeoBundle 'SirVer/ultisnips'
+NeoBundle 'honza/vim-snippets'
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'mileszs/ack.vim'
+" NeoBundle 'Shougo/unite.vim'
+" NeoBundle 'hynek/vim-python-pep8-indent.git'
+" NeoBundle 'Yggdroot/indentLine'
+
+call neobundle#end()
 
 " Set to auto read when a file is changed from the outside
 set autoread
+
+" Enable filetype plugin
+filetype plugin indent on
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
@@ -643,13 +652,13 @@ map <leader>f :MRU<CR>
 """"""""""""""""""""""""""""""
 " => Command-T
 """"""""""""""""""""""""""""""
-let g:CommandTMaxHeight = 15
-let g:CommandTMaxFiles = 50000
-let g:CommandTAcceptSelectionSplitMap=['<C-g>']
-set wildignore+=*.o,*.obj,.git,*.pyc
-noremap <leader>j :CommandT<cr>
-noremap <leader>y :CommandTFlush<cr>
-noremap <leader>f :CommandTFlush<cr>\|:CommandT %%<cr>
+" let g:CommandTMaxHeight = 15
+" let g:CommandTMaxFiles = 50000
+" let g:CommandTAcceptSelectionSplitMap=['<C-g>']
+" set wildignore+=*.o,*.obj,.git,*.pyc
+" noremap <leader>j :CommandT<cr>
+" noremap <leader>y :CommandTFlush<cr>
+" noremap <leader>f :CommandTFlush<cr>\|:CommandT %%<cr>
 
 
 """"""""""""""""""""""""""""""
@@ -781,6 +790,7 @@ let g:pymode_folding = 0
 let g:pymode_rope_completion = 0
 let g:pymode_run = 1
 let g:pymode_run_bind = '<leader><leader>r'
+let g:pymode_rope_goto_definition_cmd = 'vnew'
 
 " powerline
 set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
@@ -803,3 +813,16 @@ let g:UltiSnipsEditSplit="vertical"
 " gitgutter
 nmap [h <Plug>GitGutterPrevHunk
 nmap ]h <Plug>GitGutterNextHunk
+
+" ctrlp
+let g:ctrlp_map = '<leader>j'
+let g:ctrlp_cmd = 'CtrlP'
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.o
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(pyc|so)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+
+" ack
+let g:ack_default_options = ' --ignore-dir=is:.ropeproject '
