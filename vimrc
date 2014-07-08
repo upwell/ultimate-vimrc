@@ -118,6 +118,10 @@ NeoBundle 'SirVer/ultisnips'
 NeoBundle 'honza/vim-snippets'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'mileszs/ack.vim'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'skwp/greplace.vim'
+NeoBundle 'tpope/vim-eunuch'
+" NeoBundle 'henrik/rename.vim'
 " NeoBundle 'Shougo/unite.vim'
 " NeoBundle 'hynek/vim-python-pep8-indent.git'
 " NeoBundle 'Yggdroot/indentLine'
@@ -138,20 +142,10 @@ let g:mapleader = ","
 " Fast saving
 nmap <leader>w :w!<cr>
 
-if MySys() == "windows"
-    " Fast editing of the .vimrc
-    map <leader>r :e! ~/_vim_runtime/vimrc<cr>
-
-    " When vimrc is edited, reload it
-    autocmd! bufwritepost vimrc source ~/_vim_runtime/vimrc
-else
-    " Fast editing of the .vimrc
-    map <leader>r :e! ~/.vim_runtime/vimrc<cr>
-
-    " When vimrc is edited, reload it
-    autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc
-endif
-
+" Fast editing of the .vimrc
+map <leader>r :e! ~/.vim_runtime/vimrc<cr>
+" When vimrc is edited, reload it
+autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -199,8 +193,6 @@ syntax enable "Enable syntax hl
 if MySys() == "mac"
   set gfn=Menlo:h14
   set shell=/bin/bash
-elseif MySys() == "windows"
-  set gfn=Bitstream\ Vera\ Sans\ Mono:h10
 elseif MySys() == "linux"
   set gfn=Inconsolata\ 12
   set shell=/bin/bash
@@ -209,7 +201,9 @@ endif
 set cursorline
 if has("gui_running")
   set guioptions-=T
-  set guioptions-=M
+  set guioptions-=m
+  set guioptions-=r
+  set guifont=Yahei\ Consolas\ Hybrid\ 13
   set t_Co=256
   set background=dark
   colorscheme solarized
@@ -239,12 +233,7 @@ set noswapfile
 
 "Persistent undo
 try
-    if MySys() == "windows"
-      set undodir=C:\Windows\Temp
-    else
-      set undodir=~/.vim_runtime/undodir
-    endif
-
+    set undodir=~/.vim_runtime/undodir
     set undofile
 catch
 endtry
@@ -343,13 +332,6 @@ cnoremap <C-K> <C-U>
 
 cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
-
-" Useful on some European keyboards
-map ½ $
-imap ½ $
-vmap ½ $
-cmap ½ $
-
 
 func! Cwd()
   let cwd = getcwd()
@@ -460,29 +442,6 @@ set viminfo^=%
 " Always hide the statusline
 set laststatus=2
 
-"Git branch
-function! GitBranch()
-    let branch = system("git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* //'")
-    if branch != ''
-        return '   Git Branch: ' . substitute(branch, '\n', '', 'g')
-    en
-    return ''
-endfunction
-
-function! CurDir()
-    return substitute(getcwd(), '/Users/amir/', "~/", "g")
-endfunction
-
-function! HasPaste()
-    if &paste
-        return 'PASTE MODE  '
-    en
-    return ''
-endfunction
-
-" Format the statusline
-"set statusline=\ %{HasPaste()}%F\ [%{&ff}]\ %m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ [%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ \ Line:\ %l/%L\ \ Col:\ %c
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Parenthesis/bracket expanding
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -534,7 +493,7 @@ func! DeleteTrailingWS()
   %s/\s\+$//ge
   exe "normal `z"
 endfunc
-autocmd BufWrite *.py,*.c,*.h,*.cpp,*.java,*.jsp,*.txt,*.sql :call DeleteTrailingWS()
+autocmd BufWrite *.py,*.c,*.h,*.cpp,*.java,*.jsp,*.txt,*.sql,*.conf :call DeleteTrailingWS()
 nmap <Leader>ds :call DeleteTillSlash()<CR>
 
 set guitablabel=%t
@@ -668,7 +627,6 @@ let Grep_Skip_Dirs = 'RCS CVS SCCS .svn generated'
 set grepprg=/bin/grep\ -nH
 
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => MISC
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -791,6 +749,7 @@ let g:pymode_rope_completion = 0
 let g:pymode_run = 1
 let g:pymode_run_bind = '<leader><leader>r'
 let g:pymode_rope_goto_definition_cmd = 'vnew'
+let g:pymode_options_max_line_length = 100
 
 " powerline
 set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
@@ -826,3 +785,12 @@ let g:ctrlp_custom_ignore = {
 
 " ack
 let g:ack_default_options = ' --ignore-dir=is:.ropeproject '
+
+" perforce
+nnoremap <Leader>p4a :!p4 add %<CR>
+nnoremap <Leader>p4e :!p4 edit %<CR>
+nnoremap <Leader>p4d :!p4 diff %<CR>
+
+" greplace
+set grepprg=ack
+let g:grep_cmd_opts = '--noheading'
