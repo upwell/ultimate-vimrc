@@ -121,9 +121,9 @@ NeoBundle 'mileszs/ack.vim'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'skwp/greplace.vim'
 NeoBundle 'tpope/vim-eunuch'
+NeoBundle 'hynek/vim-python-pep8-indent.git'
 " NeoBundle 'henrik/rename.vim'
 " NeoBundle 'Shougo/unite.vim'
-" NeoBundle 'hynek/vim-python-pep8-indent.git'
 " NeoBundle 'Yggdroot/indentLine'
 
 call neobundle#end()
@@ -203,7 +203,7 @@ if has("gui_running")
   set guioptions-=T
   set guioptions-=m
   set guioptions-=r
-  set guifont=Yahei\ Consolas\ Hybrid\ 13
+  set guifont=Yahei\ Consolas\ Hybrid\ 14
   set t_Co=256
   set background=dark
   colorscheme solarized
@@ -260,6 +260,11 @@ set cino=g0
 
 set colorcolumn=100
 
+" fullscreen for gvim
+function! ToggleFullScreen()
+    call system("wmctrl -r :ACTIVE: -b toggle,fullscreen")
+endfunction
+map <silent> <F11> :call ToggleFullScreen()<CR>
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
@@ -674,9 +679,9 @@ au FileType help NoSpaceHi
 au! BufRead,BufNewFile *.json set filetype=json foldmethod=syntax
 
 " tags file
-if filereadable(glob("~/.vim_runtime/tags/header/tags"))
-    set tags+=~/.vim_runtime/tags/header/tags
-endif
+" if filereadable(glob("~/.vim_runtime/tags/header/tags"))
+"     set tags+=~/.vim_runtime/tags/header/tags
+" endif
 
 " Really easy pasting supported in Vim Version 7.3 or higher
 " Only work on the host system, remote ssh not work
@@ -742,7 +747,7 @@ let g:syntastic_python_checkers = ['flake8', 'pyflakes']
 let g:syntastic_python_flake8_args = "--max-line-length=100"
 
 " python mode
-let g:pymode_indent = 1
+let g:pymode_indent = 0
 let g:pymode_lint = 0
 let g:pymode_folding = 0
 let g:pymode_rope_completion = 0
@@ -776,7 +781,7 @@ nmap ]h <Plug>GitGutterNextHunk
 " ctrlp
 let g:ctrlp_map = '<leader>j'
 let g:ctrlp_cmd = 'CtrlP'
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.o
+set wildignore+=*.so,*.swp,*.zip,*.pyc,*.o
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(pyc|so)$',
@@ -788,7 +793,7 @@ let g:ack_default_options = ' --ignore-dir=is:.ropeproject '
 
 " perforce
 nnoremap <Leader>p4a :!p4 add %<CR>
-nnoremap <Leader>p4e :!p4 edit %<CR>
+nnoremap <Leader>ce :!p4 edit %<CR><CR>
 nnoremap <Leader>p4d :!p4 diff %<CR>
 
 " greplace
