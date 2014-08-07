@@ -105,28 +105,49 @@ set rtp+=~/.vim/bundle/neobundle.vim/
 call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'tomasr/molokai'
+
 NeoBundle 'Valloric/YouCompleteMe'
+
 NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'klen/python-mode'
+NeoBundle 'tpope/vim-commentary'
+NeoBundle 'tpope/vim-eunuch'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-repeat'
+
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'Lokaltog/powerline'
 NeoBundle 'Raimondi/delimitMate'
-NeoBundle 'tpope/vim-commentary'
+
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'gregsexton/gitv'
+
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'honza/vim-snippets'
+
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'mileszs/ack.vim'
-NeoBundle 'tpope/vim-surround'
 NeoBundle 'skwp/greplace.vim'
-NeoBundle 'tpope/vim-eunuch'
-NeoBundle 'hynek/vim-python-pep8-indent.git'
+NeoBundle 'Lokaltog/vim-easymotion'
+
+NeoBundle 'klen/python-mode'
+NeoBundle 'jimenezrick/vimerl'
+NeoBundle 'jnwhiteh/vim-golang'
+NeoBundle 'plasticboy/vim-markdown'
+NeoBundle 'hynek/vim-python-pep8-indent'
+NeoBundle 'juvenn/mustache.vim'
+NeoBundle 'exu/pgsql.vim'
+
 " NeoBundle 'henrik/rename.vim'
 " NeoBundle 'Shougo/unite.vim'
 " NeoBundle 'Yggdroot/indentLine'
 
 call neobundle#end()
+
+" end of neobundle
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
 
 " Set to auto read when a file is changed from the outside
 set autoread
