@@ -125,6 +125,7 @@ NeoBundle 'gregsexton/gitv'
 
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'honza/vim-snippets'
+NeoBundle 'scrooloose/syntastic'
 
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'mileszs/ack.vim'
@@ -138,6 +139,10 @@ NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'hynek/vim-python-pep8-indent'
 NeoBundle 'juvenn/mustache.vim'
 NeoBundle 'exu/pgsql.vim'
+NeoBundle 'Chiel92/vim-autoformat'
+NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'groenewege/vim-less'
+NeoBundle 'cakebaker/scss-syntax.vim'
 
 " NeoBundle 'henrik/rename.vim'
 " NeoBundle 'Shougo/unite.vim'
@@ -279,7 +284,7 @@ set wrap "Wrap lines
 "see :he cinooptions-values for more info
 set cino=g0
 
-set colorcolumn=100
+set colorcolumn=120
 
 " fullscreen for gvim
 function! ToggleFullScreen()
@@ -603,47 +608,10 @@ au FileType python map <buffer> <leader>D ?def
 
 
 """"""""""""""""""""""""""""""
-" => JavaScript section
-"""""""""""""""""""""""""""""""
-"au FileType javascript call JavaScriptFold()
-au FileType javascript setl fen
-au FileType javascript setl nocindent
-
-au FileType javascript imap <c-t> AJS.log();<esc>hi
-au FileType javascript imap <c-a> alert();<esc>hi
-
-au FileType javascript inoremap <buffer> $r return
-au FileType javascript inoremap <buffer> $f //--- PH ----------------------------------------------<esc>FP2xi
-
-function! JavaScriptFold()
-    setl foldmethod=syntax
-    setl foldlevelstart=1
-    syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
-
-    function! FoldText()
-        return substitute(getline(v:foldstart), '{.*', '{...}', '')
-    endfunction
-    setl foldtext=FoldText()
-endfunction
-
-
-""""""""""""""""""""""""""""""
 " => MRU plugin
 """"""""""""""""""""""""""""""
 let MRU_Max_Entries = 400
 map <leader>f :MRU<CR>
-
-
-""""""""""""""""""""""""""""""
-" => Command-T
-""""""""""""""""""""""""""""""
-" let g:CommandTMaxHeight = 15
-" let g:CommandTMaxFiles = 50000
-" let g:CommandTAcceptSelectionSplitMap=['<C-g>']
-" set wildignore+=*.o,*.obj,.git,*.pyc
-" noremap <leader>j :CommandT<cr>
-" noremap <leader>y :CommandTFlush<cr>
-" noremap <leader>f :CommandTFlush<cr>\|:CommandT %%<cr>
 
 
 """"""""""""""""""""""""""""""
@@ -717,43 +685,6 @@ let g:indexer_disableCtagsWarning=1
 " plpgsql syntax
 au BufNewFile,BufRead *.sql set filetype=pgsql
 
-" format code with astyle
-
-map <Leader>fc <ESC>:%!astyle
-                        \ --style=bsd
-                        \ --indent=force-tab=4
-                        \ --indent-switches
-                        \ --indent-namespaces
-                        \ --indent-preprocessor
-                        \ --max-instatement-indent=40
-                        \ --indent-col1-comments
-                        \ --pad-oper
-                        \ --unpad-paren
-                        \ --break-blocks
-                        \ --lineend=linux
-                        \ --align-pointer=type
-                        \ --align-reference=type
-                        \ --max-code-length=80
-                        \ --mode=c <CR>
-
-vnoremap <Leader>fc :!astyle
-                        \ --style=bsd
-                        \ --convert-tabs
-                        \ --indent-switches
-                        \ --indent-namespaces
-                        \ --indent-preprocessor
-                        \ --max-instatement-indent=40
-                        \ --indent-col1-comments
-                        \ --pad-oper
-                        \ --unpad-paren
-                        \ --break-blocks
-                        \ --lineend=linux
-                        \ --align-pointer=type
-                        \ --align-reference=type
-                        \ --max-code-length=80
-                        \ --mode=c <CR>
-
-
 " vimdiff shortcut
 map <Leader>df :diffput<CR>
 map <Leader>dg :diffget<CR>
@@ -765,7 +696,7 @@ au FileType mkd setlocal nofoldenable
 " let g:syntastic_python_pylint_args='-d C0111'
 " pylint is really slow, disable it
 let g:syntastic_python_checkers = ['flake8', 'pyflakes']
-let g:syntastic_python_flake8_args = "--max-line-length=100"
+let g:syntastic_python_flake8_args = "--max-line-length=120"
 
 " python mode
 let g:pymode_indent = 0
@@ -775,7 +706,7 @@ let g:pymode_rope_completion = 0
 let g:pymode_run = 1
 let g:pymode_run_bind = '<leader><leader>r'
 let g:pymode_rope_goto_definition_cmd = 'vnew'
-let g:pymode_options_max_line_length = 100
+let g:pymode_options_max_line_length = 120
 
 " powerline
 set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
@@ -820,3 +751,22 @@ nnoremap <Leader>p4d :!p4 diff %<CR>
 " greplace
 set grepprg=ack
 let g:grep_cmd_opts = '--noheading'
+
+" less
+nnoremap <Leader>m :w <BAR> call SaveLessToCss()<CR><space>
+function! SaveLessToCss()
+  let current_file = shellescape(expand('%:p'))
+  let filename = shellescape(expand('%:r'))
+  let command = "silent !lessc -x " . current_file . " " . filename . ".css"
+  execute command
+endfunction
+autocmd BufWritePost,FileWritePost *.less call SaveLessToCss()
+
+" scss
+function! SaveScssToCss()
+  let current_file = shellescape(expand('%:p'))
+  let filename = shellescape(expand('%:r'))
+  let command = "silent !scss " . current_file . " " . filename . ".css"
+  execute command
+endfunction
+autocmd BufWritePost,FileWritePost *.scss call SaveScssToCss()
