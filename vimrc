@@ -217,7 +217,7 @@ syntax enable "Enable syntax hl
 
 " Set font according to system
 if MySys() == "mac"
-  set gfn=Menlo:h14
+  set gfn=Input\ Mono:h14
   set shell=/bin/bash
 elseif MySys() == "linux"
   set gfn=Inconsolata\ 12
@@ -225,7 +225,7 @@ elseif MySys() == "linux"
 endif
 
 set cursorline
-if has("gui_running")
+if has("gui_running") && MySys() != "mac"
   set guioptions-=T
   set guioptions-=m
   set guioptions-=r

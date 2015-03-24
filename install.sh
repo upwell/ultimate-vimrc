@@ -14,6 +14,6 @@ source ~/.vim_runtime/vimrc
 helptags ~/.vim_runtime/doc" > ~/.vimrc
 
 # generate tags
-bash ./gentags.sh
+# bash ./gentags.sh
 
 echo "Installed amix's vim configuration successfully! Enjoy :)"
