@@ -12,78 +12,10 @@
 "
 " How_to_Install_on_Unix:
 "    $ mkdir ~/.vim_runtime
-"    $ svn co svn://orangoo.com/vim ~/.vim_runtime
 "    $ cat ~/.vim_runtime/install.sh
 "    $ sh ~/.vim_runtime/install.sh <system>
 "      <sytem> can be `mac`, `linux` or `windows`
 "
-" How_to_Upgrade:
-"    $ svn update ~/.vim_runtime
-"
-" Sections:
-"    -> General
-"    -> VIM user interface
-"    -> Colors and Fonts
-"    -> Files and backups
-"    -> Text, tab and indent related
-"    -> Visual mode related
-"    -> Command mode related
-"    -> Moving around, tabs and buffers
-"    -> Statusline
-"    -> Parenthesis/bracket expanding
-"    -> General Abbrevs
-"    -> Editing mappings
-"
-"    -> Cope
-"    -> Minibuffer plugin
-"    -> Omni complete functions
-"    -> Python section
-"    -> JavaScript section
-"
-"
-" Plugins_Included:
-"     > minibufexpl.vim - http://www.vim.org/scripts/script.php?script_id=159
-"       Makes it easy to get an overview of buffers:
-"           info -> :e ~/.vim_runtime/plugin/minibufexpl.vim
-"
-"     > bufexplorer - http://www.vim.org/scripts/script.php?script_id=42
-"       Makes it easy to switch between buffers:
-"           info -> :help bufExplorer
-"
-"     > yankring.vim - http://www.vim.org/scripts/script.php?script_id=1234
-"       Emacs's killring, useful when using the clipboard:
-"           info -> :help yankring
-"
-"     > surround.vim - http://www.vim.org/scripts/script.php?script_id=1697
-"       Makes it easy to work with surrounding text:
-"           info -> :help surround
-"
-"     > snipMate.vim - http://www.vim.org/scripts/script.php?script_id=2540
-"       Snippets for many languages (similar to TextMate's):
-"           info -> :help snipMate
-"
-"     > mru.vim - http://www.vim.org/scripts/script.php?script_id=521
-"       Plugin to manage Most Recently Used (MRU) files:
-"           info -> :e ~/.vim_runtime/plugin/mru.vim
-"
-"     > Command-T - http://www.vim.org/scripts/script.php?script_id=3025
-"       Command-T plug-in provides an extremely fast, intuitive mechanism for opening filesa:
-"           info -> :help CommandT
-"           screencast and web-help -> http://amix.dk/blog/post/19501
-"
-"
-"  Revisions:
-"     > 3.6: Added lots of stuff (colors, Command-T, Vim 7.3 persistent undo etc.)
-"     > 3.5: Paste mode is now shown in status line  if you are in paste mode
-"     > 3.4: Added mru.vim
-"     > 3.3: Added syntax highlighting for Mako mako.vim
-"     > 3.2: Turned on python_highlight_all for better syntax
-"            highlighting for Python
-"     > 3.1: Added revisions ;) and bufexplorer.vim
-"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -115,6 +47,8 @@ NeoBundle 'tpope/vim-commentary'
 NeoBundle 'tpope/vim-eunuch'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-repeat'
+NeoBundle 'vim-scripts/ingo-library'
+NeoBundle 'vim-scripts/AdvancedSorters'
 
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'Lokaltog/powerline'
@@ -130,11 +64,14 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'skwp/greplace.vim'
-NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'easymotion/vim-easymotion'
+NeoBundle 'dkprice/vim-easygrep'
 
 NeoBundle 'klen/python-mode'
 NeoBundle 'jimenezrick/vimerl'
 NeoBundle 'jnwhiteh/vim-golang'
+NeoBundle 'fatih/vim-go'
+NeoBundle 'godlygeek/tabular'
 NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'hynek/vim-python-pep8-indent'
 NeoBundle 'juvenn/mustache.vim'
@@ -143,7 +80,9 @@ NeoBundle 'Chiel92/vim-autoformat'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'groenewege/vim-less'
 NeoBundle 'cakebaker/scss-syntax.vim'
+NeoBundle 'derekwyatt/vim-scala'
 
+" NeoBundle 'Lokaltog/vim-easymotion'
 " NeoBundle 'henrik/rename.vim'
 " NeoBundle 'Shougo/unite.vim'
 " NeoBundle 'Yggdroot/indentLine'
@@ -236,7 +175,7 @@ if has("gui_running") && MySys() != "mac"
   set nonu
 else
   set t_Co=16
-  set background=dark
+  set background=light
   colorscheme solarized
   set nonu
 endif
@@ -284,7 +223,7 @@ set wrap "Wrap lines
 "see :he cinooptions-values for more info
 set cino=g0
 
-set colorcolumn=120
+set colorcolumn=100
 
 " fullscreen for gvim
 function! ToggleFullScreen()
@@ -613,14 +552,6 @@ au FileType python map <buffer> <leader>D ?def
 let MRU_Max_Entries = 400
 map <leader>f :MRU<CR>
 
-
-""""""""""""""""""""""""""""""
-" => Vim grep
-""""""""""""""""""""""""""""""
-let Grep_Skip_Dirs = 'RCS CVS SCCS .svn generated'
-set grepprg=/bin/grep\ -nH
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => MISC
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -635,9 +566,8 @@ map <leader>pp :setlocal paste!<cr>
 
 map <leader>bb :cd ..<cr>
 
-map <leader>ct :cd ~/Desktop/Todoist/todoist<cr>
-map <leader>cw :cd ~/Desktop/Wedoist/wedoist<cr>
-map <leader>cp :cd ~/Desktop/PlurkGit/trunk<cr>
+" Delete current word
+imap <C-d> <C-o>diw
 
 if MySys() == "mac"
     if has("gui_running")
@@ -689,8 +619,8 @@ au BufNewFile,BufRead *.sql set filetype=pgsql
 map <Leader>df :diffput<CR>
 map <Leader>dg :diffget<CR>
 
-" markdown no auto fold
-au FileType mkd setlocal nofoldenable
+" markdown related
+let g:vim_markdown_folding_disabled = 1
 
 " syntastic options
 " let g:syntastic_python_pylint_args='-d C0111'
@@ -725,6 +655,7 @@ let g:UltiSnipsExpandTrigger="<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
 
 " gitgutter
 nmap [h <Plug>GitGutterPrevHunk
@@ -733,7 +664,9 @@ nmap ]h <Plug>GitGutterNextHunk
 " ctrlp
 let g:ctrlp_map = '<leader>j'
 let g:ctrlp_cmd = 'CtrlP'
-set wildignore+=*.so,*.swp,*.zip,*.pyc,*.o
+let g:ctrlp_max_height=15
+let g:ctrlp_max_files=100000
+set wildignore+=*.so,*.swp,*.zip,*.pyc,*.o,*.class
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(pyc|so)$',
@@ -741,7 +674,8 @@ let g:ctrlp_custom_ignore = {
   \ }
 
 " ack
-let g:ack_default_options = ' --ignore-dir=is:.ropeproject '
+let g:ack_default_options = ' --ignore-dir=is:.ropeproject --ignore-file=ext:log --ignore-file=ext:csv --ignore-file=ext:out --ignore-file=ext:files --ignore-file=ext:a'
+command! -bang -nargs=* -complete=file Ackpy call ack#Ack('grep<bang> --type=python', <q-args>)
 
 " perforce
 nnoremap <Leader>p4a :!p4 add %<CR>
@@ -750,7 +684,12 @@ nnoremap <Leader>p4d :!p4 diff %<CR>
 
 " greplace
 set grepprg=ack
-let g:grep_cmd_opts = '--noheading'
+let g:grep_cmd_opts = '--noheading --ignore-dir=is:.ropeproject --ignore-file=ext:log --ignore-file=ext:csv --ignore-file=ext:pyc'
+
+" easygrep
+let g:EasyGrepCommand=1
+let g:EasyGrepFilesToExclude=".ropeproject,.idea,.git,.svn,*.log,*.csv,*.pyc"
+let g:EasyGrepIgnoreCase=0
 
 " less
 nnoremap <Leader>m :w <BAR> call SaveLessToCss()<CR><space>
@@ -770,3 +709,9 @@ function! SaveScssToCss()
   execute command
 endfunction
 autocmd BufWritePost,FileWritePost *.scss call SaveScssToCss()
+
+" easymotion
+hi link EasyMotionTarget ErrorMsg
+hi link EasyMotionShade Comment
+
+" vim-go

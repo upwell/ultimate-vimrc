@@ -1,0 +1,21 @@
+# my python snippets
+
+snippet enc "encoding utf8" b
+# encoding: utf-8
+
+from __future__ import unicode_literals
+
+
+endsnippet
+
+snippet bsyok "render ok json reponse" b
+return bsy_render_json_to_response('OK')
+endsnippet
+
+snippet bsyinvalid "render invalid json response" b
+return bsy_render_json_to_response('INVALID_PARAMETERS')
+endsnippet
+
+snippet logtr "log traceback" b
+logger.debug(traceback.format_exc())
+endsnippet
