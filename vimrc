@@ -51,7 +51,9 @@ NeoBundle 'vim-scripts/ingo-library'
 NeoBundle 'vim-scripts/AdvancedSorters'
 
 NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'Lokaltog/powerline'
+" NeoBundle 'Lokaltog/powerline'
+NeoBundle 'vim-airline/vim-airline'
+NeoBundle 'vim-airline/vim-airline-themes'
 NeoBundle 'Raimondi/delimitMate'
 
 NeoBundle 'airblade/vim-gitgutter'
@@ -81,6 +83,7 @@ NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'groenewege/vim-less'
 NeoBundle 'cakebaker/scss-syntax.vim'
 NeoBundle 'derekwyatt/vim-scala'
+NeoBundle 'posva/vim-vue'
 
 " NeoBundle 'Lokaltog/vim-easymotion'
 " NeoBundle 'henrik/rename.vim'
@@ -110,7 +113,7 @@ nmap <leader>w :w!<cr>
 " Fast editing of the .vimrc
 map <leader>r :e! ~/.vim_runtime/vimrc<cr>
 " When vimrc is edited, reload it
-autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc 
+autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -639,7 +642,14 @@ let g:pymode_rope_goto_definition_cmd = 'vnew'
 let g:pymode_options_max_line_length = 120
 
 " powerline
-set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+" set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+" airline
+let g:airline_powerline_fonts = 1
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
 
 " youcompleteme
 let g:ycm_complete_in_comments = 0
@@ -664,6 +674,7 @@ nmap ]h <Plug>GitGutterNextHunk
 " ctrlp
 let g:ctrlp_map = '<leader>j'
 let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 0
 let g:ctrlp_max_height=15
 let g:ctrlp_max_files=100000
 set wildignore+=*.so,*.swp,*.zip,*.pyc,*.o,*.class
@@ -676,6 +687,7 @@ let g:ctrlp_custom_ignore = {
 " ack
 let g:ack_default_options = ' --ignore-dir=is:.ropeproject --ignore-file=ext:log --ignore-file=ext:csv --ignore-file=ext:out --ignore-file=ext:files --ignore-file=ext:a'
 command! -bang -nargs=* -complete=file Ackpy call ack#Ack('grep<bang> --type=python', <q-args>)
+command! -bang -nargs=* -complete=file Ackhtml call ack#Ack('grep<bang> --type=html', <q-args>)
 
 " perforce
 nnoremap <Leader>p4a :!p4 add %<CR>
@@ -708,7 +720,7 @@ function! SaveScssToCss()
   let command = "silent !scss " . current_file . " " . filename . ".css"
   execute command
 endfunction
-autocmd BufWritePost,FileWritePost *.scss call SaveScssToCss()
+" autocmd BufWritePost,FileWritePost *.scss call SaveScssToCss()
 
 " easymotion
 hi link EasyMotionTarget ErrorMsg
