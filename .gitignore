@@ -2,3 +2,4 @@
 tags/*
 .VimballRecord
 .netrwhist
+undodir/*

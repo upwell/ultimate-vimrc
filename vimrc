@@ -22,77 +22,76 @@
 " Sets how many lines of history VIM has to remember
 set history=700
 
+let g:python_host_prog='/usr/local/bin/python2'
+let g:python3_host_prog='/usr/local/bin/python3'
+
 " for pathogen plugin
 call pathogen#infect()
 call pathogen#helptags()
 
-" vundle
-set nocompatible
-filetype off
-" set rtp+=~/.vim/bundle/Vundle.vim
-" call vundle#rc()
-" Bundle 'gmarik/Vundle.vim'
+" vim-plug
+call plug#begin('~/.vim/plugged')
 
-set rtp+=~/.vim/bundle/neobundle.vim/
-call neobundle#begin(expand('~/.vim/bundle/'))
-NeoBundleFetch 'Shougo/neobundle.vim'
+Plug 'altercation/vim-colors-solarized'
+Plug 'tomasr/molokai'
+Plug 'dracula/vim', { 'as': 'dracula' }
 
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'tomasr/molokai'
+Plug 'Valloric/YouCompleteMe', {'do': './install.py'}
 
-NeoBundle 'Valloric/YouCompleteMe'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'vim-scripts/ingo-library'
+Plug 'vim-scripts/AdvancedSorters'
 
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-commentary'
-NeoBundle 'tpope/vim-eunuch'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'tpope/vim-repeat'
-NeoBundle 'vim-scripts/ingo-library'
-NeoBundle 'vim-scripts/AdvancedSorters'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'Raimondi/delimitMate'
 
-NeoBundle 'terryma/vim-multiple-cursors'
-" NeoBundle 'Lokaltog/powerline'
-NeoBundle 'vim-airline/vim-airline'
-NeoBundle 'vim-airline/vim-airline-themes'
-NeoBundle 'Raimondi/delimitMate'
+Plug 'airblade/vim-gitgutter'
+Plug 'gregsexton/gitv'
 
-NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'gregsexton/gitv'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'scrooloose/syntastic'
 
-NeoBundle 'SirVer/ultisnips'
-NeoBundle 'honza/vim-snippets'
-NeoBundle 'scrooloose/syntastic'
-
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'mileszs/ack.vim'
-NeoBundle 'skwp/greplace.vim'
-NeoBundle 'easymotion/vim-easymotion'
-NeoBundle 'dkprice/vim-easygrep'
-
-NeoBundle 'klen/python-mode'
-NeoBundle 'jimenezrick/vimerl'
-NeoBundle 'jnwhiteh/vim-golang'
-NeoBundle 'fatih/vim-go'
-NeoBundle 'godlygeek/tabular'
-NeoBundle 'plasticboy/vim-markdown'
-NeoBundle 'hynek/vim-python-pep8-indent'
-NeoBundle 'juvenn/mustache.vim'
-NeoBundle 'exu/pgsql.vim'
-NeoBundle 'Chiel92/vim-autoformat'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'groenewege/vim-less'
-NeoBundle 'cakebaker/scss-syntax.vim'
-NeoBundle 'derekwyatt/vim-scala'
-NeoBundle 'posva/vim-vue'
+Plug 'kien/ctrlp.vim'
+Plug 'mileszs/ack.vim'
+Plug 'skwp/greplace.vim'
+Plug 'easymotion/vim-easymotion'
+Plug 'dkprice/vim-easygrep'
+Plug 'python-mode/python-mode', { 'branch': 'develop' }
+Plug 'jimenezrick/vimerl'
+Plug 'jnwhiteh/vim-golang'
+Plug 'fatih/vim-go'
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+Plug 'hynek/vim-python-pep8-indent'
+Plug 'juvenn/mustache.vim'
+Plug 'exu/pgsql.vim'
+Plug 'Chiel92/vim-autoformat'
+Plug 'pangloss/vim-javascript'
+Plug 'groenewege/vim-less'
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'derekwyatt/vim-scala'
+Plug 'posva/vim-vue'
+Plug 'pearofducks/ansible-vim'
+Plug 'dag/vim-fish'
+Plug 'chr4/nginx.vim'
+Plug 'junegunn/vim-emoji'
+Plug 'lambdalisue/suda.vim'
 
 " NeoBundle 'Lokaltog/vim-easymotion'
 " NeoBundle 'henrik/rename.vim'
 " NeoBundle 'Shougo/unite.vim'
 " NeoBundle 'Yggdroot/indentLine'
 
-call neobundle#end()
+call plug#end()
 
-" end of neobundle
+" end of vim-plug 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 
 
@@ -176,10 +175,19 @@ if has("gui_running") && MySys() != "mac"
   set background=dark
   colorscheme solarized
   set nonu
+elseif has("gui_running") && MySys() == "mac"
+  set guioptions-=T
+  set guioptions-=m
+  set guioptions-=r
+  set guifont=Inconsolata-g\ for\ Powerline:h16
+  set t_Co=200
+  colorscheme solarized
+  set nonu
 else
   set t_Co=16
-  set background=light
-  colorscheme solarized
+  " set background=light
+  " colorscheme solarized
+  colorscheme dracula
   set nonu
 endif
 
@@ -232,7 +240,7 @@ set colorcolumn=100
 function! ToggleFullScreen()
     call system("wmctrl -r :ACTIVE: -b toggle,fullscreen")
 endfunction
-map <silent> <F11> :call ToggleFullScreen()<CR>
+" map <silent> <F11> :call ToggleFullScreen()<CR>
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
@@ -572,12 +580,12 @@ map <leader>bb :cd ..<cr>
 " Delete current word
 imap <C-d> <C-o>diw
 
-if MySys() == "mac"
-    if has("gui_running")
-      set fuoptions=maxvert,maxhorz
-      au GUIEnter * set fullscreen
-    endif
-endif
+" if MySys() == "mac"
+"     if has("gui_running")
+"       set fuoptions=maxvert,maxhorz
+"       au GUIEnter * set fullscreen
+"     endif
+" endif
 
 " Map ESC with jj
 imap jj <ESC>
@@ -630,6 +638,14 @@ let g:vim_markdown_folding_disabled = 1
 " pylint is really slow, disable it
 let g:syntastic_python_checkers = ['flake8', 'pyflakes']
 let g:syntastic_python_flake8_args = "--max-line-length=120"
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 " python mode
 let g:pymode_indent = 0
@@ -650,6 +666,7 @@ if !exists('g:airline_symbols')
 endif
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
+let g:airline#extensions#default#section_truncate_width = {}
 
 " youcompleteme
 let g:ycm_complete_in_comments = 0
